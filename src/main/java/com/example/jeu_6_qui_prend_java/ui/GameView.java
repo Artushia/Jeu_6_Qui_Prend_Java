@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,23 +40,23 @@ public class GameView {
     this.component = new BorderPane();
         centerArea = new Pane();
 
-        // TEMP FOR TEST ..
-        // display all cards...
-        // Help text on position 0:
-        VBox helpComponent = new VBox(
-                new Label("on cards.."),
-                new Label("when click"),
-                new Label("=> toggle"),
-                new Label(""),
-                new Label("when right-click"),
-                new Label(" or Ctrl/Shift"),
-                new Label("=> move to end"));
-        centerArea.getChildren().add(helpComponent);
-        nodeSetLayoutAt(helpComponent, cardPosForRowCol(0, 0));
 
         int row = 0;
         int col = 1;
-        for(Card card: Cards.cards) {
+
+        for (int i =0; i <= 3; i++) {
+
+            Rectangle rectangleOutline = new Rectangle(cardWidth, cardHeight);
+            rectangleOutline.setStyle("-fx-fill: transparent; -fx-stroke: black; -fx-stroke-width: 2px;");
+            nodeSetLayoutAt(rectangleOutline, cardPosForRowCol(row, i) );
+
+        }
+
+
+        }
+
+
+        /*for(Card card: Cards.cards) {
             if (card.value % 20 == 0) {
                 row++;
                 col = 0;
@@ -70,15 +71,14 @@ public class GameView {
 
             centerArea.getChildren().add(cardComponent);
             col++;
-        }
+        }*/
 
-        endLabel = new Label("move card to here..");
-        centerArea.getChildren().add(endLabel);
+       /* centerArea.getChildren().add(endLabel);
         currEndRow = row; currEndCol = col;
         nodeSetLayoutAt(endLabel, cardPosForRowCol(currEndRow, currEndCol));
 
-        component.setCenter(centerArea);
-    }
+        component.setCenter(centerArea);*/
+
 
     private void onMouseClickCard(MouseEvent e, CardView cardView) {
         if (e.isSecondaryButtonDown() || e.isShiftDown() || e.isControlDown()) {
