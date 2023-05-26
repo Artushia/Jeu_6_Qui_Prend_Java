@@ -8,8 +8,26 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Le6QuiPrendApplication extends Application {
+    Stage stage;
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.stage = primaryStage;
+        GameAcceuil();
+    }
+    public void GameAcceuil() {
+        BorderPane mainBorderPanel = new BorderPane();
+
+        GameAcceuil gameAcceuil = new GameAcceuil();
+        mainBorderPanel.setCenter(gameAcceuil.getComponent());
+        gameAcceuil.welcomeButton.setOnAction(e -> {
+            GameView();
+        });
+
+        Scene scene = new Scene(mainBorderPanel, 1400, 800);
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void GameView()  {
         BorderPane mainBorderPanel = new BorderPane();
 
         VBox menuAndToolbar = new VBox();
@@ -38,7 +56,7 @@ public class Le6QuiPrendApplication extends Application {
         mainBorderPanel.setCenter(gameView.getComponent());
 
         Scene scene = new Scene(mainBorderPanel, 1400, 800);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        stage.setScene(scene);
+        stage.show();
     }
 }
