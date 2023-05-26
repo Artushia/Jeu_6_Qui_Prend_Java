@@ -13,12 +13,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Slf4j
 public class GameView {
@@ -36,72 +33,52 @@ public class GameView {
 
     Label endLabel;
 
-    private List<CardView> player1Hand;
-    private List<CardView> player2Hand;
+    //---------------------------------------------------------------------------------------------
 
     public GameView() {
-        this.component = new BorderPane();
+
+    this.component = new BorderPane();
         centerArea = new Pane();
 
-        // TEMP FOR TEST ..
-        // display all cards...
-        // Help text on position 0:
-        VBox helpComponent = new VBox(
-                new Label("on cards.."),
-                new Label("when click"),
-                new Label("=> toggle"),
-                new Label(""),
-                new Label("when right-click"),
-                new Label(" or Ctrl/Shift"),
-                new Label("=> move to end"));
-        centerArea.getChildren().add(helpComponent);
-        nodeSetLayoutAt(helpComponent, cardPosForRowCol(0, 0));
 
         int row = 0;
         int col = 1;
-        int cardCount = 0;
 
-        player1Hand = new ArrayList<>();
-        player2Hand = new ArrayList<>();
+        for (int i =0; i <= 3; i++) {
 
-        for (Card card : Cards.cards) {
-            if (cardCount < 10) {
-                if (card.value % 20 == 0) {
-                    row++;
-                    col = 0;
-                }
+            Rectangle rectangleOutline = new Rectangle(cardWidth, cardHeight);
+            rectangleOutline.setStyle("-fx-fill: transparent; -fx-stroke: black; -fx-stroke-width: 2px;");
+            nodeSetLayoutAt(rectangleOutline, cardPosForRowCol(row, i) );
 
-                CardView cardView = new CardView(card, cardWidth, cardHeight);
-                Pane cardComponent = cardView.getComponent();
-
-                nodeSetLayoutAt(cardComponent, cardPosForRowCol(row, col));
-
-                cardComponent.setOnMouseClicked(e -> onMouseClickCard(e, cardView));
-
-                centerArea.getChildren().add(cardComponent);
-
-                if (cardCount % 2 == 0) {
-                    player1Hand.add(cardView);
-                } else {
-                    player2Hand.add(cardView);
-                }
-
-                cardCount++;
-                col++;
-            } else {
-                break;
-            }
         }
 
-        endLabel = new Label("move card to here..");
-        centerArea.getChildren().add(endLabel);
-        currEndRow = row;
-        currEndCol = col;
+
+        }
+
+
+        /*for(Card card: Cards.cards) {
+            if (card.value % 20 == 0) {
+                row++;
+                col = 0;
+            }
+            CardView cardView = new CardView(card, cardWidth, cardHeight);
+            Pane cardComponent = cardView.getComponent();
+            // assign position..
+
+            nodeSetLayoutAt(cardComponent, cardPosForRowCol(row, col));
+
+            cardComponent.setOnMouseClicked(e -> onMouseClickCard(e, cardView));
+
+            centerArea.getChildren().add(cardComponent);
+            col++;
+        }*/
+
+       /* centerArea.getChildren().add(endLabel);
+        currEndRow = row; currEndCol = col;
         nodeSetLayoutAt(endLabel, cardPosForRowCol(currEndRow, currEndCol));
 
-        component.setCenter(centerArea);
+        component.setCenter(centerArea);*/
 
-    }
 
     private void onMouseClickCard(MouseEvent e, CardView cardView) {
         if (e.isSecondaryButtonDown() || e.isShiftDown() || e.isControlDown()) {
@@ -115,9 +92,11 @@ public class GameView {
             currEndCol++;
             nodeSetLayoutAt(endLabel, cardPosForRowCol(currEndRow, currEndCol));
 
+            // remove then add cardView, so that it is on top of all others
             centerArea.getChildren().remove(cardComponent);
             centerArea.getChildren().add(cardComponent);
 
+            // animate move card to end
             Point2D translate = toPt.subtract(fromPt);
             TranslateTransition translateTransition = new TranslateTransition();
             translateTransition.setNode(cardComponent);
@@ -125,6 +104,7 @@ public class GameView {
             translateTransition.setToX(translate.getX());
             translateTransition.setToY(translate.getY());
             translateTransition.play();
+
         } else {
             System.out.println("onMouseClickCard => toggle card " + cardView);
             cardView.toggleCard();
@@ -135,24 +115,16 @@ public class GameView {
         node.setLayoutX(pt.getX());
         node.setLayoutY(pt.getY());
     }
-
     protected Point2D cardPosForRowCol(int row, int col) {
-        return new Point2D(10 + col * (cardInsets.getLeft() + cardWidth + cardInsets.getRight()),
-                10 + row * (cardInsets.getTop() + cardHeight + cardInsets.getBottom()));
+        return new Point2D(10 + col * (cardInsets.getLeft() + cardWidth + cardInsets.getRight())
+                , 10 + row * (cardInsets.getTop() + cardHeight + cardInsets.getBottom()));
     }
 
-    public BorderPane getComponent() {
+
+    //---------------------------------------------------------------------------------------------
+
+    public Node getComponent() {
         return component;
     }
 
-    public List<CardView> getPlayer1Hand() {
-        return player1Hand;
-    }
-
-    public List<CardView> getPlayer2Hand() {
-        return player2Hand;
-    }
-
 }
-
-
