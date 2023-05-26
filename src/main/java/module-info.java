@@ -1,6 +1,7 @@
 module com.example.jeu_6_qui_prend_java {
     requires javafx.controls;
     requires javafx.fxml;
+    requires lombok;
 
 
     opens com.example.jeu_6_qui_prend_java to javafx.fxml;

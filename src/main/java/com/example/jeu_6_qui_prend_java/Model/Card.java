@@ -3,11 +3,11 @@ package com.example.jeu_6_qui_prend_java.Model;
 public class Card {
 
     public final int value;
-    public final int heads;
+    public final int penalty;
 
-    Card(int value, int heads) {
+    Card(int value, int penalty) {
         this.value = value;
-        this.heads = heads;
+        this.penalty = penalty;
     }
 
     @Override
