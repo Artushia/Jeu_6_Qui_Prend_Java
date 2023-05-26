@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Random;
 
     public class Cards {
+        public static final int MIN_CARD_VALUE = 1;
 
+        public static final int MAX_CARD_VALUE = 104;
         public static final int DEFAULT_CARDS_COUNT_PER_PLAYER = 10;
 
         public static final List<Card> cards = createCards();
