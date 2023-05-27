@@ -31,6 +31,7 @@ public class GameAccueil {
 
         Le6QuiPrendApplication mainPageController = loader.getController();
         mainPageController.displayInitCards();
+        mainPageController.displayInitHand();//
 
     }
 
