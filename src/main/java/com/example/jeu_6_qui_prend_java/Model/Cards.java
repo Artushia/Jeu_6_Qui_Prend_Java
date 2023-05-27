@@ -55,6 +55,7 @@ import java.util.Random;
                     int idx = rand.nextInt(remain.size());
                     Card card = remain.remove(idx);
                     playerCards[j].add(card);
+
                 }
             }
             List<CardSet> res = new ArrayList<>(nPlayer);
