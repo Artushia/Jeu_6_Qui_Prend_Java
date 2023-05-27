@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="749.0" prefWidth="1092.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.jeu_6_qui_prend_java.Controller.GameAccueil">
+   <children>
+      <Text fill="#ffa100" layoutX="120.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue au jeu LE 6 QUI PREND">
+         <font>
+            <Font name="Unispace-Bold" size="45.0" />
+         </font>
+      </Text>
+      <Text fill="#2200ff" layoutX="152.0" layoutY="668.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appuyer sur">
+         <font>
+            <Font name="Unispace-Bold" size="28.0" />
+         </font>
+      </Text>
+      <Button fx:id="startButton" layoutX="348.0" layoutY="631.0" mnemonicParsing="false" onAction="#startGame" text="Commencer" textFill="#2e16ff">
+         <font>
+            <Font name="Unispace-Bold" size="28.0" />
+         </font>
+      </Button>
+      <Text fill="#2200ff" layoutX="563.0" layoutY="668.0" strokeType="OUTSIDE" strokeWidth="0.0" text="pour lancer une partie">
+         <font>
+            <Font name="Unispace-Bold" size="28.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="426.0" fitWidth="426.0" layoutX="333.0" layoutY="162.0" opacity="0.3">
+         <image>
+            <Image url="@../../../images/background-6QuiPrend.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

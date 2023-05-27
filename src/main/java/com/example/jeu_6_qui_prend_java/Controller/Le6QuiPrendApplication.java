@@ -1,13 +1,23 @@
 package com.example.jeu_6_qui_prend_java.Controller;
 
+import com.example.jeu_6_qui_prend_java.Model.Card;
+import com.example.jeu_6_qui_prend_java.Model.CardSet;
 import com.example.jeu_6_qui_prend_java.Model.Cards;
+import com.example.jeu_6_qui_prend_java.Model.Player;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
+import java.util.List;
 import java.util.Random;
 
 
 public class Le6QuiPrendApplication {
+    Random random = new Random();
+    List<Card> cardtotal = Cards.cards;
+    List<Card> initalcard = Cards.initialiseGameBoard(new Random());
+    List<CardSet> playerCardList = Cards.distributeRandomCards(2, random, 10);
 
     public Rectangle jeu1;
     public Rectangle jeu2;
@@ -73,12 +83,65 @@ public class Le6QuiPrendApplication {
 
 
     public void displayInitCards() {
-        vuejeu1.setImage(CardImages.getFrontImage(Cards.initialiseGameBoard(new Random()).get(0)));
-        vuejeu7.setImage(CardImages.getFrontImage(Cards.initialiseGameBoard(new Random()).get(1)));
-        vuejeu13.setImage(CardImages.getFrontImage(Cards.initialiseGameBoard(new Random()).get(2)));
-        vuejeu19.setImage(CardImages.getFrontImage(Cards.initialiseGameBoard(new Random()).get(3)));
+
+        System.out.println(initalcard);
+        vuejeu1.setImage(CardImages.getFrontImage(initalcard.get(0)));
+        vuejeu7.setImage(CardImages.getFrontImage(initalcard.get(1)));
+        vuejeu13.setImage(CardImages.getFrontImage(initalcard.get(2)));
+        vuejeu19.setImage(CardImages.getFrontImage(initalcard.get(3)));
     }
 
+    public void displayInitHand() {
+        System.out.println(cardtotal.size());
+        try {
+            System.out.println(playerCardList.get(0));
+            for (int i = 0; i < 10; i++) {
+                Image image = CardImages.getFrontImage(playerCardList.get(0).getCard(i));
+                ImagePattern imagePattern = new ImagePattern(image);
+                switch (i) {
+                    case 0:
+                        main1.setFill(imagePattern);
+                        break;
+                    case 1:
+                        main2.setFill(imagePattern);
+                        break;
+                    case 2:
+                        main3.setFill(imagePattern);
+                        break;
+                    case 3:
+                        main4.setFill(imagePattern);
+                        break;
+                    case 4:
+                        main5.setFill(imagePattern);
+                        break;
+                    case 5:
+                        main6.setFill(imagePattern);
+                        break;
+                    case 6:
+                        main7.setFill(imagePattern);
+                        break;
+                    case 7:
+                        main8.setFill(imagePattern);
+                        break;
+                    case 8:
+                        main9.setFill(imagePattern);
+                        break;
+                    case 9:
+                        main10.setFill(imagePattern);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+
+            // 코드에서 발생할 수 있는 다른 작업 수행
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 
