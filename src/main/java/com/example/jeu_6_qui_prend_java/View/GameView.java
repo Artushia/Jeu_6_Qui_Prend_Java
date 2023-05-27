@@ -1,6 +1,6 @@
 package com.example.jeu_6_qui_prend_java.View;
 
-import com.example.jeu_6_qui_prend_java.View.CardView;
+//import com.example.jeu_6_qui_prend_java.View.CardView;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -27,29 +27,29 @@ public class GameView {
     int currEndRow = 7;
     int currEndCol = 4;
 
-    Label endLabel;
+    Label endLabel;}
 
     //---------------------------------------------------------------------------------------------
 
-    public GameView() {
+ /*   public GameView() {
 
-    this.component = new BorderPane();
+        this.component = new BorderPane();
         centerArea = new Pane();
 
 
         int row = 0;
         int col = 1;
 
-        for (int i =0; i <= 3; i++) {
+        for (int i = 0; i <= 3; i++) {
 
             Rectangle rectangleOutline = new Rectangle(cardWidth, cardHeight);
             rectangleOutline.setStyle("-fx-fill: transparent; -fx-stroke: black; -fx-stroke-width: 2px;");
-            nodeSetLayoutAt(rectangleOutline, cardPosForRowCol(row, i) );
+            nodeSetLayoutAt(rectangleOutline, cardPosForRowCol(row, i));
 
         }
 
 
-        }
+    }}*/
 
 
         /*for(Card card: Cards.cards) {
@@ -76,7 +76,7 @@ public class GameView {
         component.setCenter(centerArea);*/
 
 
-    private void onMouseClickCard(MouseEvent e, CardView cardView) {
+  /*  private void onMouseClickCard(MouseEvent e, CardView cardView) {
         if (e.isSecondaryButtonDown() || e.isShiftDown() || e.isControlDown()) {
             // TODO ... animate move card to end..
             System.out.println("onMouseClickCard..RightButton => move card " + cardView + " to end");
@@ -123,4 +123,4 @@ public class GameView {
         return component;
     }
 
-}
+}*/

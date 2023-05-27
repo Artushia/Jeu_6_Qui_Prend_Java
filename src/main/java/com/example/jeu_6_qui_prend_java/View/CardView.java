@@ -1,3 +1,4 @@
+/*
 package com.example.jeu_6_qui_prend_java.View;
 
 import com.example.jeu_6_qui_prend_java.Controller.CardImages;
@@ -17,7 +18,9 @@ public class CardView {
     protected ImageView frontImageView;
     protected ImageView backImageView;
 
-    /** may be null if unknown.. forced to back side */
+    */
+/** may be null if unknown.. forced to back side *//*
+
     protected Card card;
 
     protected boolean frontSide;
@@ -46,6 +49,10 @@ public class CardView {
         component.setPrefSize(width, height);
     }
 
+    public ImageView getFrontImageView() {
+        return frontImageView;
+    }
+
     public void toggleCard() {
         this.frontSide = !frontSide;
         System.out.println("toggle card " + card + " => " + ((frontSide)? "front" : "back"));
@@ -68,3 +75,4 @@ public class CardView {
                 '}';
     }
 }
+*/
