@@ -7,19 +7,17 @@ import java.util.Random;
 
     public class Cards {
         public static final int MIN_CARD_VALUE = 1;
-
         public static final int MAX_CARD_VALUE = 104;
         public static final int DEFAULT_CARDS_COUNT_PER_PLAYER = 10;
 
         public static final List<Card> cards = createCards();
-
         public static final Card cardOf(int i) {
             return cards.get(i-1);
         }
 
         private static List<Card> createCards() {
             List<Card> res = new ArrayList<>();
-            for (int i = 1; i <= 104; i++) {
+            for (int i = MIN_CARD_VALUE; i <= MAX_CARD_VALUE; i++) {
                 res.add(new Card(i, cardPenalty(i)));
             }
             return Collections.unmodifiableList(res);
@@ -42,6 +40,19 @@ import java.util.Random;
         public static List<CardSet> distributeRandomCards(int nPlayer, Random rand) {
             return distributeRandomCards(nPlayer, rand,  DEFAULT_CARDS_COUNT_PER_PLAYER);
         }
+
+        public static List<Card> initialiseGameBoard(Random rand) {
+            List<Card> remain = new ArrayList<>(cards);
+            List<Card> gameboardCards = new ArrayList<>();
+
+            for (int i = 0; i < 4; i++) {
+                    int idx = rand.nextInt(remain.size());
+                    Card card = remain.remove(idx);
+                    gameboardCards.add(card);
+            }
+            return gameboardCards;
+        }
+
 
         public static List<CardSet> distributeRandomCards(int nPlayer, Random rand, int nCards) {
             if (nPlayer < 0 || nPlayer > 10) throw new IllegalArgumentException();

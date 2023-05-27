@@ -1,5 +1,8 @@
 package com.example.jeu_6_qui_prend_java.Controller;
 
+import com.example.jeu_6_qui_prend_java.Model.Card;
+import com.example.jeu_6_qui_prend_java.Model.Cards;
+//import com.example.jeu_6_qui_prend_java.View.CardView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,9 +13,10 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
+import java.util.Random;
 
 @Slf4j
-public class GameAcceuil {
+public class GameAccueil {
 
     public Button startButton;
 
@@ -24,6 +28,16 @@ public class GameAcceuil {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+
+        Le6QuiPrendApplication mainPageController = loader.getController();
+        mainPageController.displayInitCards();
+
     }
+
+
+
+
+
+
 
 }
