@@ -74,8 +74,6 @@ public class Le6QuiPrendApplication {
 
     public void displayInitCards() {
         vuejeu1.setImage(CardImages.getFrontImage(Cards.initialiseGameBoard(new Random()).get(0)));
-        vuejeu1.setPreserveRatio(true);
-        vuejeu1.setFitHeight(115);
         vuejeu7.setImage(CardImages.getFrontImage(Cards.initialiseGameBoard(new Random()).get(1)));
         vuejeu13.setImage(CardImages.getFrontImage(Cards.initialiseGameBoard(new Random()).get(2)));
         vuejeu19.setImage(CardImages.getFrontImage(Cards.initialiseGameBoard(new Random()).get(3)));
