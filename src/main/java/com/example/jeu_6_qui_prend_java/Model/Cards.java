@@ -62,6 +62,7 @@ import java.util.Random;
             for (int j = 0; j < nPlayer; j++) {
                 playerCards[j] = new ArrayList<>(nCards);
             }
+
             for (int i = 0; i < nCards; i++) {
                 for (int j = 0; j < nPlayer; j++) {
                     int idx = rand.nextInt(remain.size());
