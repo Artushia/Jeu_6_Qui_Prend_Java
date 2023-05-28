@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,4 +26,15 @@ public class Player {
         this.playerScore = playerScore;
         this.Playerturn = Playerturn;
     }
+
+
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Player {
+    public int playerNumber;
+    public List<Card> playerCardSet;
 }
