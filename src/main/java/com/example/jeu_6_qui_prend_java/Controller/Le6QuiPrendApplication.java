@@ -5,12 +5,12 @@ import com.example.jeu_6_qui_prend_java.Model.CardSet;
 import com.example.jeu_6_qui_prend_java.Model.Cards;
 import com.example.jeu_6_qui_prend_java.Model.Player;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+
 
 import java.util.List;
 import java.util.Random;
@@ -23,6 +23,7 @@ public class Le6QuiPrendApplication {
     List<CardSet> playerCardList = Cards.distributeRandomCards(2, random, 10);
     Player player1 = new Player(1, playerCardList.get(0),0,true);
     Player player2 = new Player(2, playerCardList.get(1),0,false);
+
 
     public Rectangle jeu1;
     public Rectangle jeu2;
@@ -90,6 +91,7 @@ public class Le6QuiPrendApplication {
 
     public Button FinishTrunButton;
 
+
     public void displayInitCards() {
 
         System.out.println(initalcard);
@@ -98,6 +100,7 @@ public class Le6QuiPrendApplication {
         vuejeu13.setImage(CardImages.getFrontImage(initalcard.get(2)));
         vuejeu19.setImage(CardImages.getFrontImage(initalcard.get(3)));
     }
+
     public void finishTurnButtonClicked() {
         // Switch the active player
         if (player1.isPlayerturn()) {
@@ -125,6 +128,14 @@ public class Le6QuiPrendApplication {
             }
             for (int i = 0; i < 10; i++) {
                 Image image = CardImages.getFrontImage(currentPlayer.getPlayerCardSet().get(0).getCard(i));
+
+
+    public void displayInitHand() {
+        System.out.println(cardtotal.size());
+        try {
+            System.out.println(playerCardList.get(0));
+            for (int i = 0; i < 10; i++) {
+                Image image = CardImages.getFrontImage(playerCardList.get(0).getCard(i));
                 ImagePattern imagePattern = new ImagePattern(image);
                 switch (i) {
                     case 0:
@@ -161,11 +172,6 @@ public class Le6QuiPrendApplication {
                         break;
                 }
             }
-
-
-
-
-            // 코드에서 발생할 수 있는 다른 작업 수행
         } catch (Exception e) {
             e.printStackTrace();
         }
