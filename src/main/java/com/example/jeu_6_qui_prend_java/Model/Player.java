@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -13,5 +14,15 @@ import java.util.List;
 @AllArgsConstructor
 public class Player {
     public int playerNumber;
-    public List<Card> playerCardSet;
+    public List<CardSet> playerCardSet = new ArrayList<CardSet>();
+    public int playerScore;
+
+    public boolean Playerturn;
+
+    public Player(int playerNumber, CardSet cardSet, int playerScore,boolean Playerturn) {
+        this.playerNumber = playerNumber;
+        this.playerCardSet.add(cardSet);
+        this.playerScore = playerScore;
+        this.Playerturn = Playerturn;
+    }
 }

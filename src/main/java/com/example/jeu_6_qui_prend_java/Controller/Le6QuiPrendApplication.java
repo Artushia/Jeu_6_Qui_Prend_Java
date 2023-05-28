@@ -4,10 +4,13 @@ import com.example.jeu_6_qui_prend_java.Model.Card;
 import com.example.jeu_6_qui_prend_java.Model.CardSet;
 import com.example.jeu_6_qui_prend_java.Model.Cards;
 import com.example.jeu_6_qui_prend_java.Model.Player;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 import java.util.List;
 import java.util.Random;
@@ -18,6 +21,8 @@ public class Le6QuiPrendApplication {
     List<Card> cardtotal = Cards.cards;
     List<Card> initalcard = Cards.initialiseGameBoard(new Random());
     List<CardSet> playerCardList = Cards.distributeRandomCards(2, random, 10);
+    Player player1 = new Player(1, playerCardList.get(0),0,true);
+    Player player2 = new Player(2, playerCardList.get(1),0,false);
 
     public Rectangle jeu1;
     public Rectangle jeu2;
@@ -80,7 +85,10 @@ public class Le6QuiPrendApplication {
     public ImageView vuejeu22;
     public ImageView vuejeu23;
     public ImageView vuejeu24;
+    public Text playerName;
+    public Text playerPoint;
 
+    public Button FinishTrunButton;
 
     public void displayInitCards() {
 
@@ -90,13 +98,33 @@ public class Le6QuiPrendApplication {
         vuejeu13.setImage(CardImages.getFrontImage(initalcard.get(2)));
         vuejeu19.setImage(CardImages.getFrontImage(initalcard.get(3)));
     }
-
+    public void finishTurnButtonClicked() {
+        // Switch the active player
+        if (player1.isPlayerturn()) {
+            player1.setPlayerturn(false);
+            player2.setPlayerturn(true);
+            playerName.setText("Player turn: player " + player2.getPlayerNumber());
+            playerPoint.setText(String.valueOf(player1.getPlayerScore()));
+            displayInitHand();
+        } else {
+            player1.setPlayerturn(true);
+            player2.setPlayerturn(false);
+            playerName.setText("Player turn: player " + player1.getPlayerNumber());
+            playerPoint.setText(String.valueOf(player2.getPlayerScore()));
+            displayInitHand();
+        }
+    }
     public void displayInitHand() {
-        System.out.println(cardtotal.size());
         try {
             System.out.println(playerCardList.get(0));
+            Player currentPlayer;
+            if (player1.isPlayerturn()) {
+                currentPlayer = player1;
+            } else {
+                currentPlayer = player2;
+            }
             for (int i = 0; i < 10; i++) {
-                Image image = CardImages.getFrontImage(playerCardList.get(0).getCard(i));
+                Image image = CardImages.getFrontImage(currentPlayer.getPlayerCardSet().get(0).getCard(i));
                 ImagePattern imagePattern = new ImagePattern(image);
                 switch (i) {
                     case 0:
@@ -133,6 +161,7 @@ public class Le6QuiPrendApplication {
                         break;
                 }
             }
+
 
 
 
