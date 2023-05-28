@@ -3,6 +3,8 @@ package com.example.jeu_6_qui_prend_java.Controller;
 import com.example.jeu_6_qui_prend_java.Model.Card;
 import com.example.jeu_6_qui_prend_java.Model.Cards;
 //import com.example.jeu_6_qui_prend_java.View.CardView;
+import com.example.jeu_6_qui_prend_java.Model.Player;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +33,13 @@ public class GameAccueil {
 
         Le6QuiPrendApplication mainPageController = loader.getController();
         mainPageController.displayInitCards();
-        mainPageController.displayInitHand();//
+
+        mainPageController.displayInitHand();
+        mainPageController.finishTurnButtonClicked();
+        // Register the button's action event handler
+        mainPageController.FinishTrunButton.setOnAction(e -> {
+            mainPageController.finishTurnButtonClicked();
+        });
 
     }
 
