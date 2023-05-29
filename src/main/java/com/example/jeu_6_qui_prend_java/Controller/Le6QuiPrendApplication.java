@@ -4,13 +4,13 @@ import com.example.jeu_6_qui_prend_java.Model.Card;
 import com.example.jeu_6_qui_prend_java.Model.CardSet;
 import com.example.jeu_6_qui_prend_java.Model.Cards;
 import com.example.jeu_6_qui_prend_java.Model.Player;
-import javafx.animation.*;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -22,12 +22,14 @@ import java.util.Random;
 
 
 public class Le6QuiPrendApplication {
+
     Random random = new Random();
     List<Card> cardtotal = Cards.cards;
-    List<Card> initalcard = Cards.initialiseGameBoard(new Random());
+    List<Card> initialcard = Cards.initialiseGameBoard(new Random());
     List<CardSet> playerCardList = Cards.distributeRandomCards(2, random, 10);
     Player player1 = new Player(1, playerCardList.get(0),0,true);
     Player player2 = new Player(2, playerCardList.get(1),0,false);
+
 
     public Rectangle jeu1;
     public Rectangle jeu2;
@@ -65,55 +67,41 @@ public class Le6QuiPrendApplication {
     public Rectangle main9;
     public Rectangle main10;
 
-
-    public ImageView vuejeu1;
-    public ImageView vuejeu2;
-    public ImageView vuejeu3;
-    public ImageView vuejeu4;
-    public ImageView vuejeu5;
-    public ImageView vuejeu6;
-    public ImageView vuejeu7;
-    public ImageView vuejeu8;
-    public ImageView vuejeu9;
-    public ImageView vuejeu10;
-    public ImageView vuejeu11;
-    public ImageView vuejeu12;
-    public ImageView vuejeu13;
-    public ImageView vuejeu14;
-    public ImageView vuejeu15;
-    public ImageView vuejeu16;
-    public ImageView vuejeu17;
-    public ImageView vuejeu18;
-    public ImageView vuejeu19;
-    public ImageView vuejeu20;
-    public ImageView vuejeu21;
-    public ImageView vuejeu22;
-    public ImageView vuejeu23;
-    public ImageView vuejeu24;
     public Text playerName;
     public Text playerPoint;
 
-    public Button FinishTrunButton;
+    public Button FinishTurnButton;
 
     private Rectangle twinklingCard;
 
+    Rectangle[] mainRectangles = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
+
+    //Sets the cards at the beginning of the columns when game starts
     public void displayInitCards() {
 
-        System.out.println(initalcard);
-        vuejeu1.setImage(CardImages.getFrontImage(initalcard.get(0)));
-        vuejeu7.setImage(CardImages.getFrontImage(initalcard.get(1)));
-        vuejeu13.setImage(CardImages.getFrontImage(initalcard.get(2)));
-        vuejeu19.setImage(CardImages.getFrontImage(initalcard.get(3)));
+        Rectangle[] firstRectangles = { jeu1, jeu7, jeu13, jeu19 };
+
+        for (int i = 0; i < firstRectangles.length; i++) {
+            Image image = CardImages.getFrontImage(initialcard.get(i));
+            ImagePattern imagePattern = new ImagePattern(image);
+            firstRectangles[i].setFill(imagePattern);
+        }
+
+        System.out.println(initialcard);
+
     }
+
+    //When finish turn button is clicked, it switches active player
+    //Stops twinkle effect when turn changes
     public void finishTurnButtonClicked() {
-        // Switch the active player
+
         if (player1.isPlayerturn()) {
             player1.setPlayerturn(false);
             player2.setPlayerturn(true);
             playerName.setText("Player turn: player " + player2.getPlayerNumber());
             playerPoint.setText(String.valueOf(player1.getPlayerScore()));
             displayInitHand();
-            stopTwinkleEffect(); // Stop the twinkle effect when the turn changes
+            stopTwinkleEffect();
 
         } else {
             player1.setPlayerturn(true);
@@ -121,12 +109,23 @@ public class Le6QuiPrendApplication {
             playerName.setText("Player turn: player " + player1.getPlayerNumber());
             playerPoint.setText(String.valueOf(player2.getPlayerScore()));
             displayInitHand();
-            stopTwinkleEffect(); // Stop the twinkle effect when the turn changes
-
+            stopTwinkleEffect();
         }
 
+
     }
+
+    /*public void moveCardOnPlayerTurn() {
+        if (player1.isPlayerturn()) {
+            mainRectangles[i].setOnMouseClicked(event -> {
+                Rectangle clickedRectangle = (Rectangle) event.getSource();
+        }
+    }
+    }*/
+
+    //Displays starting hand of player
     public void displayInitHand() {
+
         try {
             System.out.println(playerCardList.get(0));
             Player currentPlayer;
@@ -135,8 +134,8 @@ public class Le6QuiPrendApplication {
             } else {
                 currentPlayer = player2;
             }
+
             // Define an array to hold the main rectangles
-            Rectangle[] mainRectangles = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
 
             for (int i = 0; i < 10; i++) {
                 Image image = CardImages.getFrontImage(currentPlayer.getPlayerCardSet().get(0).getCard(i));
@@ -157,20 +156,21 @@ public class Le6QuiPrendApplication {
                 );
             }
 
-
-            // 코드에서 발생할 수 있는 다른 작업 수행
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
     }
+
+
     private void handleCardClick(int userData) {
+
         if (twinklingCard != null) {
             twinklingCard.setEffect(null); // Remove the twinkle effect from the currently twinkling card
         }
         Rectangle clickedCard = getCardRectangle(userData);
         applyTwinkleEffect(clickedCard);
+
     }
 
 
@@ -191,6 +191,7 @@ public class Le6QuiPrendApplication {
         return cardRectangle;
     }
 
+    //Start Twinkle animation on card
     private void applyTwinkleEffect(Rectangle cardRectangle) {
         ColorAdjust colorAdjust = new ColorAdjust();
         cardRectangle.setEffect(colorAdjust);
@@ -207,6 +208,7 @@ public class Le6QuiPrendApplication {
         twinklingCard = cardRectangle; // Assign the currently twinkling card
     }
 
+    //Stops Twinkle animation on card
     private void stopTwinkleEffect() {
         if (twinklingCard != null) {
             twinklingCard.setEffect(null); // Remove the twinkle effect from the currently twinkling card

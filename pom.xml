@@ -49,6 +49,11 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>1.7.32</version>
             </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>20-ea+9</version>
+        </dependency>
     </dependencies>
 
     <build>

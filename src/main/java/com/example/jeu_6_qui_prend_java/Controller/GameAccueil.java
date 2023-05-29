@@ -1,9 +1,5 @@
 package com.example.jeu_6_qui_prend_java.Controller;
 
-import com.example.jeu_6_qui_prend_java.Model.Card;
-import com.example.jeu_6_qui_prend_java.Model.Cards;
-//import com.example.jeu_6_qui_prend_java.View.CardView;
-import com.example.jeu_6_qui_prend_java.Model.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,8 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
-import java.util.Random;
 
 @Slf4j
 public class GameAccueil {
@@ -35,9 +31,7 @@ public class GameAccueil {
         mainPageController.displayInitHand();
         mainPageController.finishTurnButtonClicked();
         // Register the button's action event handler
-        mainPageController.FinishTrunButton.setOnAction(e -> {
-            mainPageController.finishTurnButtonClicked();
-        });
+        mainPageController.FinishTurnButton.setOnAction(e -> mainPageController.finishTurnButtonClicked());
     }
 
 }
