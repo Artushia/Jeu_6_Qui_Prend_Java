@@ -21,4 +21,3 @@ public class Card implements Comparable<Card> {
         return Integer.compare(this.value, o.value);
     }
 }
-

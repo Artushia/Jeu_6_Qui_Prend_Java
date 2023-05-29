@@ -42,5 +42,4 @@ public class CardImages {
         assert imgUrl != null;
         return new Image(imgUrl.toExternalForm());
     }
-
 }
