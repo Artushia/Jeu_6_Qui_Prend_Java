@@ -171,6 +171,7 @@ public class Le6QuiPrendApplication {
             e.printStackTrace();
         }
 
+
     }
     private void handleCardClick(int userData) {
         if (twinklingCard != null) {
