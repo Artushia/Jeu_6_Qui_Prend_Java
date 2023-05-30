@@ -14,21 +14,16 @@
             <Font name="Unispace-Bold" size="45.0" />
          </font>
       </Text>
-      <Text fill="#2200ff" layoutX="152.0" layoutY="668.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appuyer sur">
+      <Text fill="#2200ff" layoutX="150.0" layoutY="674.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appuyer pour voir les règles du jeu ">
          <font>
             <Font name="Unispace-Bold" size="28.0" />
          </font>
       </Text>
-      <Button fx:id="startButton" layoutX="348.0" layoutY="631.0" mnemonicParsing="false" onAction="#startGame" text="Commencer" textFill="#2e16ff">
+      <Button fx:id="startButton" layoutX="619.0" layoutY="633.0" mnemonicParsing="false" onAction="#startGame" text="Règles du jeu " textFill="#2e16ff">
          <font>
             <Font name="Unispace-Bold" size="28.0" />
          </font>
       </Button>
-      <Text fill="#2200ff" layoutX="563.0" layoutY="668.0" strokeType="OUTSIDE" strokeWidth="0.0" text="pour lancer une partie">
-         <font>
-            <Font name="Unispace-Bold" size="28.0" />
-         </font>
-      </Text>
       <ImageView fitHeight="426.0" fitWidth="426.0" layoutX="333.0" layoutY="162.0" opacity="0.3">
          <image>
             <Image url="@../../../images/background-6QuiPrend.png" />

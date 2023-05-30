@@ -19,7 +19,7 @@ public class GameAccueil {
 
     @FXML
     private void startGame(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/jeu_6_qui_prend_java/mainPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/jeu_6_qui_prend_java/rules.fxml"));
         Parent secondPage = loader.load();
         Scene scene = new Scene(secondPage);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
