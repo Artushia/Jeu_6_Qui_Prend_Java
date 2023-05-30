@@ -1,9 +1,6 @@
 package com.example.jeu_6_qui_prend_java.Controller;
 
-import com.example.jeu_6_qui_prend_java.Model.Card;
-import com.example.jeu_6_qui_prend_java.Model.CardSet;
-import com.example.jeu_6_qui_prend_java.Model.Cards;
-import com.example.jeu_6_qui_prend_java.Model.Player;
+import com.example.jeu_6_qui_prend_java.Model.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -16,6 +13,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -70,10 +68,16 @@ public class Le6QuiPrendApplication {
 
     public Button FinishTurnButton;
     public Player currentPlayer;
-
+    public CardStack CardSet1 = new CardStack(startcards.get(0));
+    public CardStack CardSet2 = new CardStack(startcards.get(1));
+    public CardStack CardSet3 = new CardStack(startcards.get(2));
+    public CardStack CardSet4 = new CardStack(startcards.get(3));
     private Rectangle twinklingCard;
 
+    Rectangle jeuUpdate;
+
     Card chosenCard;
+    List<Integer> Topvalues = new ArrayList<>();
 
     //Sets the cards at the beginning of the columns when game starts
     public void displayInitCards() {
@@ -86,13 +90,23 @@ public class Le6QuiPrendApplication {
             firstRectangles[i].setFill(imagePattern);
         }
 
-        System.out.println(startcards);
+        System.out.println("CardSet1: " + CardSet1.getTopValue());//
+        System.out.println("CardSet2: " + CardSet2.getTopValue());//
+        System.out.println("CardSet3: " + CardSet3.getTopValue());//
+        System.out.println("CardSet4: " + CardSet4.getTopValue());//
+
+        Topvalues.add(CardSet1.getTopValue());
+        Topvalues.add(CardSet2.getTopValue());
+        Topvalues.add(CardSet3.getTopValue());
+        Topvalues.add(CardSet4.getTopValue());
 
     }
 
     //When finish turn button is clicked, it switches active player
     //Stops twinkle effect when turn changes
     public void finishTurnButtonClicked() {
+        int minDifferenceP1 = Integer.MAX_VALUE; // Initialize the minimum difference with a large value
+        int minDifferenceP2 = Integer.MAX_VALUE; // Initialize the minimum difference with a large value
 
         if (player1.isPlayerturn()) {
             player1.setPlayerturn(false);
@@ -112,6 +126,62 @@ public class Le6QuiPrendApplication {
             CardSet cardSet = currentPlayer.getPlayerCardSet();
             cardSet.take(chosenCard);
             System.out.println("player" + currentPlayer.getPlayerNumber() + " cardset: " + cardSet);
+            if(player1.getChosenCard() != null && player2.getChosenCard() != null){
+                int indexP1 = 0;
+                int indexP2 = 0;
+                for (int i = 0; i < Topvalues.size(); i++) {
+                    int differenceP1 = player1.getChosenCard().value - Topvalues.get(i) ; // player1's difference
+                    int differenceP2 = player2.getChosenCard().value - Topvalues.get(i) ; // player2's difference
+                    System.out.println("DifferenceP1 for index " + i + ": " + differenceP1);
+                    System.out.println("DifferenceP2 for index " + i + ": " + differenceP2);
+                    // Update the minimum difference if the current difference is smaller
+                    if (differenceP1 >0 && differenceP1 < minDifferenceP1) {
+                        minDifferenceP1 = differenceP1;
+                        indexP1 = i;
+                    }
+                    if (differenceP2 >0 && differenceP2 < minDifferenceP2) {
+                        minDifferenceP2 = differenceP2;
+                        indexP2 = i;
+                    }
+
+                }
+                System.out.println("IndexP1: " + indexP1);
+                System.out.println("IndexP2: " + indexP2);
+
+                switch (indexP1){
+                    case 0:
+                        CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                        System.out.println("CardSet1: " + CardSet1.getTopValue());
+                        System.out.println(CardSet1.getSumPenalty());
+                        jeuUpdate = jeu2;
+                        break;
+                    case 1:
+                        CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                        System.out.println("CardSet2: " + CardSet2.getTopValue());
+                        System.out.println(CardSet2.getSumPenalty());
+                        jeuUpdate = jeu8;
+                        break;
+                    case 2:
+                        CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                        System.out.println("CardSet3: " + CardSet3.getTopValue());
+                        System.out.println(CardSet3.getSumPenalty());
+                        jeuUpdate = jeu14;
+                        break;
+                    case 3:
+                        CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                        System.out.println("CardSet4: " + CardSet4.getTopValue());
+                        System.out.println(CardSet4.getSumPenalty());
+                        jeuUpdate = jeu20;
+                        break;
+                }
+                Image image = CardImages.getFrontImage(player1.chosenCard);
+                ImagePattern imagePattern = new ImagePattern(image);
+                jeuUpdate.setFill(imagePattern);
+
+                System.out.println("Minimum differenceP1: " + minDifferenceP1);
+                System.out.println("Minimum differenceP2: " + minDifferenceP2);
+                currentPlayer.setChosenCard(null);
+            }
             chosenCard = null; // Reset the chosen card
             currentPlayer.setPlayerCardSet(cardSet);
 

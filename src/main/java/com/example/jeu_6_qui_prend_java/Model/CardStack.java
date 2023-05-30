@@ -37,6 +37,7 @@ public class CardStack {
         resetWithTopCard(firstCard);
     }
 
+
     //---------------------------------------------------------------------------------------------
 
     public int getCardCount() {
