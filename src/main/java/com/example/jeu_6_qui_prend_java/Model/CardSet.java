@@ -1,14 +1,13 @@
 package com.example.jeu_6_qui_prend_java.Model;
 
-import javafx.scene.paint.ImagePattern;
-
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 public class CardSet {
 
-    private static final TreeSet<Card> cards = new TreeSet<>();
+    private final TreeSet<Card> cards = new TreeSet<>();
 
     //---------------------------------------------------------------------------------------------
 
@@ -46,32 +45,6 @@ public class CardSet {
         throw new IllegalStateException("Unable to find card at index: " + i);
     }
 
-    //Method to retrieve Card object from ImagePattern displayed in the rectangle
-    public static Card getValueFromImagePattern(ImagePattern cardPattern) {
-        String filename = cardPattern.getImage().getUrl();
-        int cardValue = Integer.parseInt(Objects.requireNonNull(extractNumber(filename)));
-        return getCardByValue(cardValue);
-    }
-
-    public static Card getCardByValue(int value) {
-        for (Card card : cards) {
-            if (card.value == value) {
-                return card;
-            }
-        }
-        return null;
-    }
-
-    public static String extractNumber(String str) {
-        Pattern pattern = Pattern.compile("\\d+");
-        Matcher matcher = pattern.matcher(str);
-
-        if (matcher.find()) {
-            return matcher.group();
-        }
-        return null; // or throw an exception if no number is found
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -86,4 +59,12 @@ public class CardSet {
         return sb.toString();
     }
 
+    public int getCardIndex(Card chosenCard) {
+        for (int i = 0; i < cards.size(); i++) {
+            if (cards.equals(chosenCard)) {
+                return i;
+            }
+        }
+        return -1; // Return -1 if the chosen card is not found in the card set
+    }
 }

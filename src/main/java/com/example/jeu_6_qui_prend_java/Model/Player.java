@@ -11,19 +11,19 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Player {
 
     public int playerNumber;
-    public List<CardSet> playerCardSet = new ArrayList<CardSet>();
+    public CardSet playerCardSet;
     public int playerScore;
     public boolean Playerturn;
-    public boolean played = false;
+    public Card chosenCard;
 
-    public Player(int playerNumber, CardSet cardSet, int playerScore,boolean Playerturn) {
+    public Player(int playerNumber, CardSet cardSet, int playerScore,boolean Playerturn, Card chosenCard) {
         this.playerNumber = playerNumber;
-        this.playerCardSet.add(cardSet);
+        this.playerCardSet = cardSet;
         this.playerScore = playerScore;
         this.Playerturn = Playerturn;
+        this.chosenCard = chosenCard;
     }
 }

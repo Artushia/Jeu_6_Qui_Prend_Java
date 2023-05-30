@@ -24,12 +24,10 @@ import java.util.Random;
 public class Le6QuiPrendApplication {
 
     Random random = new Random();
-    List<Card> cardtotal = Cards.cards;
-    List<Card> initialcard = Cards.initialiseGameBoard(new Random());
-    List<CardSet> playerCardList = Cards.distributeRandomCards(2, random, 10);
-    Player player1 = new Player(1, playerCardList.get(0),0,true);
-    Player player2 = new Player(2, playerCardList.get(1),0,false);
-
+    List<Card> startcards = Cards.initialiseGameBoard(random);
+    List<CardSet> playerCardList = Cards.distributeRandomCards(2, random, 10); // distribute 10 cards to each player
+    Player player1 = new Player(1, playerCardList.get(0),11,true, null);
+    Player player2 = new Player(2, playerCardList.get(1),22,false, null);
 
     public Rectangle jeu1;
     public Rectangle jeu2;
@@ -71,8 +69,11 @@ public class Le6QuiPrendApplication {
     public Text playerPoint;
 
     public Button FinishTurnButton;
+    public Player currentPlayer;
 
     private Rectangle twinklingCard;
+
+    Card chosenCard;
 
     //Sets the cards at the beginning of the columns when game starts
     public void displayInitCards() {
@@ -80,12 +81,12 @@ public class Le6QuiPrendApplication {
         Rectangle[] firstRectangles = { jeu1, jeu7, jeu13, jeu19 };
 
         for (int i = 0; i < firstRectangles.length; i++) {
-            Image image = CardImages.getFrontImage(initialcard.get(i));
+            Image image = CardImages.getFrontImage(startcards.get(i));
             ImagePattern imagePattern = new ImagePattern(image);
             firstRectangles[i].setFill(imagePattern);
         }
 
-        System.out.println(initialcard);
+        System.out.println(startcards);
 
     }
 
@@ -97,13 +98,42 @@ public class Le6QuiPrendApplication {
             player1.setPlayerturn(false);
             player2.setPlayerturn(true);
             playerName.setText("Player turn: player " + player2.getPlayerNumber());
-            playerPoint.setText(String.valueOf(player1.getPlayerScore()));
-
+            playerPoint.setText(String.valueOf(player2.getPlayerScore()));
         } else {
             player1.setPlayerturn(true);
             player2.setPlayerturn(false);
             playerName.setText("Player turn: player " + player1.getPlayerNumber());
-            playerPoint.setText(String.valueOf(player2.getPlayerScore()));
+            playerPoint.setText(String.valueOf(player1.getPlayerScore()));
+        }
+        if (chosenCard != null) {
+            Rectangle[] mainRectangles = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
+
+            System.out.println("player" + currentPlayer.getPlayerNumber() + " chose card: " + chosenCard);
+            CardSet cardSet = currentPlayer.getPlayerCardSet();
+            cardSet.take(chosenCard);
+            System.out.println("player" + currentPlayer.getPlayerNumber() + " cardset: " + cardSet);
+            chosenCard = null; // Reset the chosen card
+            currentPlayer.setPlayerCardSet(cardSet);
+
+            // Clear the remaining main rectangles
+            for (int i = cardSet.remains().size(); i < mainRectangles.length; i++) {
+                mainRectangles[i].setFill(null);
+                mainRectangles[i].setUserData(null);
+                mainRectangles[i].setOnMouseClicked(null);
+            }
+
+            // Update the main rectangles' userData and on-click event handlers
+            for (int i = 0; i < cardSet.remains().size(); i++) {
+                Image image = CardImages.getFrontImage(cardSet.getCard(i));
+                ImagePattern imagePattern = new ImagePattern(image);
+
+                // Set the fill and user data for the main rectangle
+                mainRectangles[i].setFill(imagePattern);
+                mainRectangles[i].setUserData(i); // Set the index as the user data of the button
+
+                final int index = i;
+                mainRectangles[i].setOnMouseClicked(e -> handleCardClick(index));
+            }
         }
         displayInitHand();
         stopTwinkleEffect();
@@ -111,25 +141,9 @@ public class Le6QuiPrendApplication {
 
     }
 
-    Rectangle[] rectanglesJoueur = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
-
-
-    //peut-être null car ils sont définis dans la méthode displayHandInit
-    public void getValueFromImagePatternTest() {
-        for (Rectangle rec : rectanglesJoueur) {
-            rec.setOnMouseClicked(e -> System.out.println(CardSet.getValueFromImagePattern((ImagePattern) rec.getFill())));
-        }
-
-    }
-
-
-
     //Displays starting hand of player
-    public void displayInitHand() {
-
+        public void displayInitHand() {
         try {
-            System.out.println(playerCardList.get(0));
-            Player currentPlayer;
             if (player1.isPlayerturn()) {
                 currentPlayer = player1;
             } else {
@@ -139,8 +153,8 @@ public class Le6QuiPrendApplication {
             // Define an array to hold the main rectangles
             Rectangle[] mainRectangles = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
 
-            for (int i = 0; i < 10; i++) {
-                Image image = CardImages.getFrontImage(currentPlayer.getPlayerCardSet().get(0).getCard(i));
+            for (int i = 0; i < currentPlayer.getPlayerCardSet().remains().size(); i++) {
+                Image image = CardImages.getFrontImage(currentPlayer.getPlayerCardSet().getCard(i));
                 ImagePattern imagePattern = new ImagePattern(image);
 
                 // Set the fill and user data for the main rectangle
@@ -151,8 +165,10 @@ public class Le6QuiPrendApplication {
 
                 // Set the on-click event handler for the main rectangle
                 mainRectangles[i].setOnMouseClicked(e -> {
-                        handleCardClick(index);
-                    System.out.println("Clicked card: " + currentPlayer.getPlayerCardSet().get(0).getCard(index));
+                            handleCardClick(index);
+                            System.out.println("Clicked card: " + currentPlayer.getPlayerCardSet().getCard(index));
+                            chosenCard = currentPlayer.getPlayerCardSet().getCard(index);
+                            currentPlayer.setChosenCard(chosenCard);
                         }
                 );
             }
@@ -161,6 +177,21 @@ public class Le6QuiPrendApplication {
             e.printStackTrace();
         }
 
+    }
+    private Rectangle getCardRectangle(CardSet cardSet, Card chosenCard) {
+        // Implement the mapping between card data and Rectangle objects
+        Rectangle cardRectangle = null;
+
+        List<Rectangle> cardRectangles = Arrays.asList(
+                main1, main2, main3, main4, main5, main6, main7, main8, main9, main10
+        );
+
+        int index = cardSet.getCardIndex(chosenCard);
+        if (index >= 0 && index < cardRectangles.size()) {
+            cardRectangle = cardRectangles.get(index);
+        }
+
+        return cardRectangle;
     }
 
     private void handleCardClick(int userData) {
@@ -217,4 +248,3 @@ public class Le6QuiPrendApplication {
     }
 
 }
-
