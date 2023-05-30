@@ -19,7 +19,7 @@ public class GameAccueil {
 
     @FXML
     private void startGame(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/jeu_6_qui_prend_java/rules.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/jeu_6_qui_prend_java/mainPage.fxml"));
         Parent secondPage = loader.load();
         Scene scene = new Scene(secondPage);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -29,9 +29,11 @@ public class GameAccueil {
         Le6QuiPrendApplication mainPageController = loader.getController();
         mainPageController.displayInitCards();
         mainPageController.displayInitHand();
-        mainPageController.finishTurnButtonClicked();
+        //mainPageController.finishTurnButtonClicked();
         // Register the button's action event handler
         mainPageController.FinishTurnButton.setOnAction(e -> mainPageController.finishTurnButtonClicked());
+        mainPageController.getValueFromImagePatternTest();
     }
+
 
 }

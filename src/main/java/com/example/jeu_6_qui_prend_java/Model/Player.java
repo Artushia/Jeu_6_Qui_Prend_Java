@@ -13,11 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Player {
+
     public int playerNumber;
     public List<CardSet> playerCardSet = new ArrayList<CardSet>();
     public int playerScore;
-
     public boolean Playerturn;
+    public boolean played = false;
 
     public Player(int playerNumber, CardSet cardSet, int playerScore,boolean Playerturn) {
         this.playerNumber = playerNumber;
