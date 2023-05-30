@@ -108,6 +108,11 @@ public class Le6QuiPrendApplication {
         int minDifferenceP1 = Integer.MAX_VALUE; // Initialize the minimum difference with a large value
         int minDifferenceP2 = Integer.MAX_VALUE; // Initialize the minimum difference with a large value
 
+        Rectangle[] firstStackRectangles = { jeu2, jeu3, jeu4, jeu5, jeu6 };
+        Rectangle[] secondStackRectangles = { jeu8, jeu9, jeu10, jeu11, jeu12 };
+        Rectangle[] thirdStackRectangles = { jeu14, jeu15, jeu16, jeu17, jeu18 };
+        Rectangle[] fourthStackRectangles = { jeu20, jeu21, jeu22, jeu23, jeu24 };
+
         if (player1.isPlayerturn()) {
             player1.setPlayerturn(false);
             player2.setPlayerturn(true);
@@ -153,25 +158,25 @@ public class Le6QuiPrendApplication {
                         CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard());
                         System.out.println("CardSet1: " + CardSet1.getTopValue());
                         System.out.println(CardSet1.getSumPenalty());
-                        jeuUpdate = jeu2;
+                        jeuUpdate = firstStackRectangles[CardSet1.getCardCount() - 2];
                         break;
                     case 1:
                         CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard());
                         System.out.println("CardSet2: " + CardSet2.getTopValue());
                         System.out.println(CardSet2.getSumPenalty());
-                        jeuUpdate = jeu8;
+                        jeuUpdate = secondStackRectangles[CardSet2.getCardCount() - 2];
                         break;
                     case 2:
                         CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard());
                         System.out.println("CardSet3: " + CardSet3.getTopValue());
                         System.out.println(CardSet3.getSumPenalty());
-                        jeuUpdate = jeu14;
+                        jeuUpdate = thirdStackRectangles[CardSet3.getCardCount() - 2];
                         break;
                     case 3:
                         CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard());
                         System.out.println("CardSet4: " + CardSet4.getTopValue());
                         System.out.println(CardSet4.getSumPenalty());
-                        jeuUpdate = jeu20;
+                        jeuUpdate = fourthStackRectangles[CardSet4.getCardCount() - 2];
                         break;
                 }
                 Image image = CardImages.getFrontImage(player1.chosenCard);
