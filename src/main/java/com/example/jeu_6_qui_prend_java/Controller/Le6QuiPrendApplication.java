@@ -74,7 +74,6 @@ public class Le6QuiPrendApplication {
 
     private Rectangle twinklingCard;
 
-    Rectangle[] mainRectangles = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
 
     //Sets the cards at the beginning of the columns when game starts
     public void displayInitCards() {
@@ -136,6 +135,7 @@ public class Le6QuiPrendApplication {
             }
 
             // Define an array to hold the main rectangles
+            Rectangle[] mainRectangles = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
 
             for (int i = 0; i < 10; i++) {
                 Image image = CardImages.getFrontImage(currentPlayer.getPlayerCardSet().get(0).getCard(i));
