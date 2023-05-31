@@ -74,7 +74,6 @@ public class Le6QuiPrendApplication {
 
     private Rectangle twinklingCard;
 
-
     //Sets the cards at the beginning of the columns when game starts
     public void displayInitCards() {
 
@@ -99,28 +98,31 @@ public class Le6QuiPrendApplication {
             player2.setPlayerturn(true);
             playerName.setText("Player turn: player " + player2.getPlayerNumber());
             playerPoint.setText(String.valueOf(player1.getPlayerScore()));
-            displayInitHand();
-            stopTwinkleEffect();
 
         } else {
             player1.setPlayerturn(true);
             player2.setPlayerturn(false);
             playerName.setText("Player turn: player " + player1.getPlayerNumber());
             playerPoint.setText(String.valueOf(player2.getPlayerScore()));
-            displayInitHand();
-            stopTwinkleEffect();
         }
+        displayInitHand();
+        stopTwinkleEffect();
 
 
     }
 
-    /*public void moveCardOnPlayerTurn() {
-        if (player1.isPlayerturn()) {
-            mainRectangles[i].setOnMouseClicked(event -> {
-                Rectangle clickedRectangle = (Rectangle) event.getSource();
+    Rectangle[] rectanglesJoueur = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
+
+
+    //peut-être null car ils sont définis dans la méthode displayHandInit
+    public void getValueFromImagePatternTest() {
+        for (Rectangle rec : rectanglesJoueur) {
+            rec.setOnMouseClicked(e -> System.out.println(CardSet.getValueFromImagePattern((ImagePattern) rec.getFill())));
         }
+
     }
-    }*/
+
+
 
     //Displays starting hand of player
     public void displayInitHand() {
@@ -144,7 +146,6 @@ public class Le6QuiPrendApplication {
                 // Set the fill and user data for the main rectangle
                 mainRectangles[i].setFill(imagePattern);
                 mainRectangles[i].setUserData(i); // Set the index as the user data of the button
-
                 // Create a final copy of the index variable
                 final int index = i;
 
@@ -161,7 +162,6 @@ public class Le6QuiPrendApplication {
         }
 
     }
-
 
     private void handleCardClick(int userData) {
 
@@ -215,9 +215,6 @@ public class Le6QuiPrendApplication {
             twinklingCard = null; // Reset the twinkling card variable
         }
     }
-
-
-
 
 }
 
