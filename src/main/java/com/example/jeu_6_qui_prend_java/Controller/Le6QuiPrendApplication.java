@@ -1,9 +1,6 @@
 package com.example.jeu_6_qui_prend_java.Controller;
 
-import com.example.jeu_6_qui_prend_java.Model.Card;
-import com.example.jeu_6_qui_prend_java.Model.CardSet;
-import com.example.jeu_6_qui_prend_java.Model.Cards;
-import com.example.jeu_6_qui_prend_java.Model.Player;
+import com.example.jeu_6_qui_prend_java.Model.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -16,6 +13,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -24,12 +22,10 @@ import java.util.Random;
 public class Le6QuiPrendApplication {
 
     Random random = new Random();
-    List<Card> cardtotal = Cards.cards;
-    List<Card> initialcard = Cards.initialiseGameBoard(new Random());
-    List<CardSet> playerCardList = Cards.distributeRandomCards(2, random, 10);
-    Player player1 = new Player(1, playerCardList.get(0),0,true);
-    Player player2 = new Player(2, playerCardList.get(1),0,false);
-
+    List<Card> startcards = Cards.initialiseGameBoard(random);
+    List<CardSet> playerCardList = Cards.distributeRandomCards(2, random, 10); // distribute 10 cards to each player
+    Player player1 = new Player(1, playerCardList.get(0),11,true, null);
+    Player player2 = new Player(2, playerCardList.get(1),22,false, null);
 
     public Rectangle jeu1;
     public Rectangle jeu2;
@@ -71,8 +67,18 @@ public class Le6QuiPrendApplication {
     public Text playerPoint;
 
     public Button FinishTurnButton;
-
+    public Player currentPlayer;
+    public CardStack CardSet1 = new CardStack(startcards.get(0));
+    public CardStack CardSet2 = new CardStack(startcards.get(1));
+    public CardStack CardSet3 = new CardStack(startcards.get(2));
+    public CardStack CardSet4 = new CardStack(startcards.get(3));
     private Rectangle twinklingCard;
+
+    Rectangle jeuUpdate;
+    Rectangle jeuUpdate2;
+
+    Card chosenCard;
+    List<Integer> Topvalues = new ArrayList<>();
 
     //Sets the cards at the beginning of the columns when game starts
     public void displayInitCards() {
@@ -80,30 +86,218 @@ public class Le6QuiPrendApplication {
         Rectangle[] firstRectangles = { jeu1, jeu7, jeu13, jeu19 };
 
         for (int i = 0; i < firstRectangles.length; i++) {
-            Image image = CardImages.getFrontImage(initialcard.get(i));
+            Image image = CardImages.getFrontImage(startcards.get(i));
             ImagePattern imagePattern = new ImagePattern(image);
             firstRectangles[i].setFill(imagePattern);
         }
 
-        System.out.println(initialcard);
+        System.out.println("CardSet1: " + CardSet1.getTopValue());//
+        System.out.println("CardSet2: " + CardSet2.getTopValue());//
+        System.out.println("CardSet3: " + CardSet3.getTopValue());//
+        System.out.println("CardSet4: " + CardSet4.getTopValue());//
+
+        Topvalues.add(CardSet1.getTopValue());
+        Topvalues.add(CardSet2.getTopValue());
+        Topvalues.add(CardSet3.getTopValue());
+        Topvalues.add(CardSet4.getTopValue());
 
     }
 
     //When finish turn button is clicked, it switches active player
     //Stops twinkle effect when turn changes
     public void finishTurnButtonClicked() {
+        int minDifferenceP1 = Integer.MAX_VALUE; // Initialize the minimum difference with a large value
+        int minDifferenceP2 = Integer.MAX_VALUE; // Initialize the minimum difference with a large value
+
+        Rectangle[] firstStackRectangles = { jeu2, jeu3, jeu4, jeu5, jeu6 };
+        Rectangle[] secondStackRectangles = { jeu8, jeu9, jeu10, jeu11, jeu12 };
+        Rectangle[] thirdStackRectangles = { jeu14, jeu15, jeu16, jeu17, jeu18 };
+        Rectangle[] fourthStackRectangles = { jeu20, jeu21, jeu22, jeu23, jeu24 };
 
         if (player1.isPlayerturn()) {
             player1.setPlayerturn(false);
             player2.setPlayerturn(true);
             playerName.setText("Player turn: player " + player2.getPlayerNumber());
-            playerPoint.setText(String.valueOf(player1.getPlayerScore()));
-
+            playerPoint.setText(String.valueOf(player2.getPlayerScore()));
         } else {
             player1.setPlayerturn(true);
             player2.setPlayerturn(false);
             playerName.setText("Player turn: player " + player1.getPlayerNumber());
-            playerPoint.setText(String.valueOf(player2.getPlayerScore()));
+            playerPoint.setText(String.valueOf(player1.getPlayerScore()));
+        }
+        if (chosenCard != null) {
+            Rectangle[] mainRectangles = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
+
+            System.out.println("player" + currentPlayer.getPlayerNumber() + " chose card: " + chosenCard);
+            CardSet cardSet = currentPlayer.getPlayerCardSet();
+            cardSet.take(chosenCard);
+            System.out.println("player" + currentPlayer.getPlayerNumber() + " cardset: " + cardSet);
+            if(player1.getChosenCard() != null && player2.getChosenCard() != null){
+                int indexP1 = 0;
+                int indexP2 = 0;
+                for (int i = 0; i < Topvalues.size(); i++) {
+                    int differenceP1 = player1.getChosenCard().value - Topvalues.get(i) ; // player1's difference
+                    int differenceP2 = player2.getChosenCard().value - Topvalues.get(i) ; // player2's difference
+                    System.out.println("DifferenceP1 for index " + i + ": " + differenceP1);
+                    System.out.println("DifferenceP2 for index " + i + ": " + differenceP2);
+                    // Update the minimum difference if the current difference is smaller
+                    if (differenceP1 >0 && differenceP1 < minDifferenceP1) {
+                        minDifferenceP1 = differenceP1;
+                        indexP1 = i;
+                    }
+                    if (differenceP2 >0 && differenceP2 < minDifferenceP2) {
+                        minDifferenceP2 = differenceP2;
+                        indexP2 = i;
+                    }
+
+                }
+                System.out.println("IndexP1: " + indexP1);
+                System.out.println("IndexP2: " + indexP2);
+                if(indexP1 == indexP2){
+                    if(minDifferenceP1 < minDifferenceP2){
+                        switch (indexP1){
+                            case 0:
+                                CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                                jeuUpdate = firstStackRectangles[CardSet1.getCardCount() - 2];
+                                CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                                jeuUpdate2 = firstStackRectangles[CardSet1.getCardCount() - 2];
+
+                                break;
+                            case 1:
+                                CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                                jeuUpdate = secondStackRectangles[CardSet2.getCardCount() - 2];
+                                CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                                jeuUpdate2 = secondStackRectangles[CardSet2.getCardCount() - 2];
+                                break;
+                            case 2:
+                                CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                                jeuUpdate = thirdStackRectangles[CardSet3.getCardCount() - 2];
+                                CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                                jeuUpdate2 = thirdStackRectangles[CardSet3.getCardCount() - 2];
+                                break;
+                            case 3:
+                                CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                                jeuUpdate = fourthStackRectangles[CardSet4.getCardCount() - 2];
+                                CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                                jeuUpdate2 = fourthStackRectangles[CardSet4.getCardCount() - 2];
+                                break;
+                        }
+                        Image image = CardImages.getFrontImage(player1.chosenCard);
+                        Image image2 = CardImages.getFrontImage(player2.chosenCard);
+                        ImagePattern imagePattern = new ImagePattern(image);
+                        ImagePattern imagePattern2 = new ImagePattern(image2);
+                        jeuUpdate.setFill(imagePattern);
+                        jeuUpdate2.setFill(imagePattern2);
+                    }else{
+                        switch (indexP1){
+                            case 0:
+                                CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                                jeuUpdate2 = firstStackRectangles[CardSet1.getCardCount() - 2];
+                                CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                                jeuUpdate = firstStackRectangles[CardSet1.getCardCount() - 2];
+                                break;
+                            case 1:
+                                CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                                jeuUpdate2 = secondStackRectangles[CardSet2.getCardCount() - 2];
+                                CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                                jeuUpdate = secondStackRectangles[CardSet2.getCardCount() - 2];
+                                break;
+                            case 2:
+                                CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                                jeuUpdate2 = thirdStackRectangles[CardSet3.getCardCount() - 2];
+                                CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                                jeuUpdate = thirdStackRectangles[CardSet3.getCardCount() - 2];
+                                break;
+                            case 3:
+                                CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                                jeuUpdate2 = fourthStackRectangles[CardSet4.getCardCount() - 2];
+                                CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                                jeuUpdate = fourthStackRectangles[CardSet4.getCardCount() - 2];
+                                break;
+                        }
+                        Image image = CardImages.getFrontImage(player1.chosenCard);
+                        Image image2 = CardImages.getFrontImage(player2.chosenCard);
+                        ImagePattern imagePattern = new ImagePattern(image);
+                        ImagePattern imagePattern2 = new ImagePattern(image2);
+                        jeuUpdate.setFill(imagePattern);
+                        jeuUpdate2.setFill(imagePattern2);
+                    }
+                }else {
+                    switch (indexP1) {
+                        case 0:
+                            CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                            jeuUpdate = firstStackRectangles[CardSet1.getCardCount() - 2];
+                            break;
+                        case 1:
+                            CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                            jeuUpdate = secondStackRectangles[CardSet2.getCardCount() - 2];
+                            break;
+                        case 2:
+                            CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                            jeuUpdate = thirdStackRectangles[CardSet3.getCardCount() - 2];
+                            break;
+                        case 3:
+                            CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard());
+                            jeuUpdate = fourthStackRectangles[CardSet4.getCardCount() - 2];
+                            break;
+                    }
+                    switch (indexP2) {
+                        case 0:
+                            CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                            jeuUpdate2 = firstStackRectangles[CardSet1.getCardCount() - 2];
+                            break;
+                        case 1:
+                            CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                            jeuUpdate2 = secondStackRectangles[CardSet2.getCardCount() - 2];
+                            break;
+                        case 2:
+                            CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                            jeuUpdate2 = thirdStackRectangles[CardSet3.getCardCount() - 2];
+                            break;
+                        case 3:
+                            CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard());
+                            jeuUpdate2 = fourthStackRectangles[CardSet4.getCardCount() - 2];
+                            break;
+                    }
+                    Image image = CardImages.getFrontImage(player1.chosenCard);
+                    ImagePattern imagePattern = new ImagePattern(image);
+                    jeuUpdate.setFill(imagePattern);
+
+                    Image image2 = CardImages.getFrontImage(player2.chosenCard);
+                    ImagePattern imagePattern2 = new ImagePattern(image2);
+                    jeuUpdate2.setFill(imagePattern2);
+                }
+                System.out.println("Minimum differenceP1: " + minDifferenceP1);
+                System.out.println("Minimum differenceP2: " + minDifferenceP2);
+                currentPlayer.setChosenCard(null);
+                Topvalues.clear();
+                Topvalues.add(CardSet1.getTopValue());
+                Topvalues.add(CardSet2.getTopValue());
+                Topvalues.add(CardSet3.getTopValue());
+                Topvalues.add(CardSet4.getTopValue());
+            }
+            chosenCard = null; // Reset the chosen card
+            currentPlayer.setPlayerCardSet(cardSet);
+
+            // Clear the remaining main rectangles
+            for (int i = cardSet.remains().size(); i < mainRectangles.length; i++) {
+                mainRectangles[i].setFill(null);
+                mainRectangles[i].setUserData(null);
+                mainRectangles[i].setOnMouseClicked(null);
+            }
+
+            // Update the main rectangles' userData and on-click event handlers
+            for (int i = 0; i < cardSet.remains().size(); i++) {
+                Image image = CardImages.getFrontImage(cardSet.getCard(i));
+                ImagePattern imagePattern = new ImagePattern(image);
+
+                // Set the fill and user data for the main rectangle
+                mainRectangles[i].setFill(imagePattern);
+                mainRectangles[i].setUserData(i); // Set the index as the user data of the button
+
+                final int index = i;
+                mainRectangles[i].setOnMouseClicked(e -> handleCardClick(index));
+            }
         }
         displayInitHand();
         stopTwinkleEffect();
@@ -111,25 +305,9 @@ public class Le6QuiPrendApplication {
 
     }
 
-    Rectangle[] rectanglesJoueur = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
-
-
-    //peut-être null car ils sont définis dans la méthode displayHandInit
-    public void getValueFromImagePatternTest() {
-        for (Rectangle rec : rectanglesJoueur) {
-            rec.setOnMouseClicked(e -> System.out.println(CardSet.getValueFromImagePattern((ImagePattern) rec.getFill())));
-        }
-
-    }
-
-
-
     //Displays starting hand of player
-    public void displayInitHand() {
-
+        public void displayInitHand() {
         try {
-            System.out.println(playerCardList.get(0));
-            Player currentPlayer;
             if (player1.isPlayerturn()) {
                 currentPlayer = player1;
             } else {
@@ -139,8 +317,8 @@ public class Le6QuiPrendApplication {
             // Define an array to hold the main rectangles
             Rectangle[] mainRectangles = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
 
-            for (int i = 0; i < 10; i++) {
-                Image image = CardImages.getFrontImage(currentPlayer.getPlayerCardSet().get(0).getCard(i));
+            for (int i = 0; i < currentPlayer.getPlayerCardSet().remains().size(); i++) {
+                Image image = CardImages.getFrontImage(currentPlayer.getPlayerCardSet().getCard(i));
                 ImagePattern imagePattern = new ImagePattern(image);
 
                 // Set the fill and user data for the main rectangle
@@ -151,8 +329,10 @@ public class Le6QuiPrendApplication {
 
                 // Set the on-click event handler for the main rectangle
                 mainRectangles[i].setOnMouseClicked(e -> {
-                        handleCardClick(index);
-                    System.out.println("Clicked card: " + currentPlayer.getPlayerCardSet().get(0).getCard(index));
+                            handleCardClick(index);
+                            System.out.println("Clicked card: " + currentPlayer.getPlayerCardSet().getCard(index));
+                            chosenCard = currentPlayer.getPlayerCardSet().getCard(index);
+                            currentPlayer.setChosenCard(chosenCard);
                         }
                 );
             }
@@ -161,6 +341,21 @@ public class Le6QuiPrendApplication {
             e.printStackTrace();
         }
 
+    }
+    private Rectangle getCardRectangle(CardSet cardSet, Card chosenCard) {
+        // Implement the mapping between card data and Rectangle objects
+        Rectangle cardRectangle = null;
+
+        List<Rectangle> cardRectangles = Arrays.asList(
+                main1, main2, main3, main4, main5, main6, main7, main8, main9, main10
+        );
+
+        int index = cardSet.getCardIndex(chosenCard);
+        if (index >= 0 && index < cardRectangles.size()) {
+            cardRectangle = cardRectangles.get(index);
+        }
+
+        return cardRectangle;
     }
 
     private void handleCardClick(int userData) {
@@ -217,4 +412,3 @@ public class Le6QuiPrendApplication {
     }
 
 }
-
