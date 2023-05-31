@@ -1,13 +1,14 @@
 package com.example.jeu_6_qui_prend_java.Model;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.TreeSet;
+import javafx.scene.paint.ImagePattern;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CardSet {
 
-    private final TreeSet<Card> cards = new TreeSet<>();
+    private static final TreeSet<Card> cards = new TreeSet<>();
 
     //---------------------------------------------------------------------------------------------
 
@@ -43,6 +44,32 @@ public class CardSet {
 
         // This point should not be reached if the index is valid
         throw new IllegalStateException("Unable to find card at index: " + i);
+    }
+
+    //Method to retrieve Card object from ImagePattern displayed in the rectangle
+    public static Card getValueFromImagePattern(ImagePattern cardPattern) {
+        String filename = cardPattern.getImage().getUrl();
+        int cardValue = Integer.parseInt(Objects.requireNonNull(extractNumber(filename)));
+        return getCardByValue(cardValue);
+    }
+
+    public static Card getCardByValue(int value) {
+        for (Card card : cards) {
+            if (card.value == value) {
+                return card;
+            }
+        }
+        return null;
+    }
+
+    public static String extractNumber(String str) {
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(str);
+
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        return null; // or throw an exception if no number is found
     }
 
     @Override
