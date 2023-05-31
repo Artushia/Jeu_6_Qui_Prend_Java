@@ -252,11 +252,11 @@ public class Le6QuiPrendApplication {
                             break;
                         case 2:
                             CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard());
-                            jeuUpdate2 = firstStackRectangles[CardSet3.getCardCount() - 2];
+                            jeuUpdate2 = thirdStackRectangles[CardSet3.getCardCount() - 2];
                             break;
                         case 3:
                             CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard());
-                            jeuUpdate2 = firstStackRectangles[CardSet4.getCardCount() - 2];
+                            jeuUpdate2 = fourthStackRectangles[CardSet4.getCardCount() - 2];
                             break;
                     }
                     Image image = CardImages.getFrontImage(player1.chosenCard);
