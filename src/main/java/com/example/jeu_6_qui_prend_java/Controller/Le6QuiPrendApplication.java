@@ -1,17 +1,16 @@
 package com.example.jeu_6_qui_prend_java.Controller;
 
 import com.example.jeu_6_qui_prend_java.Model.*;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +25,7 @@ public class Le6QuiPrendApplication {
     List<CardSet> playerCardList = Cards.distributeRandomCards(2, random, 10); // distribute 10 cards to each player
     Player player1 = new Player(1, playerCardList.get(0),11,true, null);
     Player player2 = new Player(2, playerCardList.get(1),22,false, null);
+    private static final Duration CARD_MOVE_DURATION = Duration.seconds(1);
 
     public Rectangle jeu1;
     public Rectangle jeu2;
@@ -89,7 +89,9 @@ public class Le6QuiPrendApplication {
             Image image = CardImages.getFrontImage(startcards.get(i));
             ImagePattern imagePattern = new ImagePattern(image);
             firstRectangles[i].setFill(imagePattern);
+            playRotationAnimation(firstRectangles[i]); // Ajoutez cette ligne pour jouer l'animation de rotation
         }
+
 
         System.out.println("CardSet1: " + CardSet1.getTopValue());//
         System.out.println("CardSet2: " + CardSet2.getTopValue());//
@@ -117,15 +119,16 @@ public class Le6QuiPrendApplication {
         if (player1.isPlayerturn()) {
             player1.setPlayerturn(false);
             player2.setPlayerturn(true);
-            playerName.setText("Player turn: player " + player2.getPlayerNumber());
+            playerName.setText("It's Player " + player2.getPlayerNumber() + "'s time to play ");
             playerPoint.setText(String.valueOf(player2.getPlayerScore()));
         } else {
             player1.setPlayerturn(true);
             player2.setPlayerturn(false);
-            playerName.setText("Player turn: player " + player1.getPlayerNumber());
+            playerName.setText("It's Player " + player1.getPlayerNumber() + "'s time to play ");
             playerPoint.setText(String.valueOf(player1.getPlayerScore()));
         }
         if (chosenCard != null) {
+
             Rectangle[] mainRectangles = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
 
             System.out.println("player" + currentPlayer.getPlayerNumber() + " chose card: " + chosenCard);
@@ -161,7 +164,6 @@ public class Le6QuiPrendApplication {
                                 jeuUpdate = firstStackRectangles[CardSet1.getCardCount() - 2];
                                 CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard());
                                 jeuUpdate2 = firstStackRectangles[CardSet1.getCardCount() - 2];
-
                                 break;
                             case 1:
                                 CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard());
@@ -410,5 +412,19 @@ public class Le6QuiPrendApplication {
             twinklingCard = null; // Reset the twinkling card variable
         }
     }
+    // Méthode pour créer et jouer l'animation de rotation sur un rectangle
+    private void playRotationAnimation(Rectangle rectangle) {
+        RotateTransition rotateTransition = new RotateTransition(Duration.millis(500), rectangle);
+        rotateTransition.setAxis(Rotate.Y_AXIS);
+        rotateTransition.setFromAngle(0);
+        rotateTransition.setToAngle(360);
+        rotateTransition.setCycleCount(1);
+        rotateTransition.setAutoReverse(false);
+        rotateTransition.play();
+    }
+
+
+
+
 
 }

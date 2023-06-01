@@ -9,25 +9,55 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="749.0" prefWidth="1092.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.jeu_6_qui_prend_java.Controller.GameAccueil">
    <children>
-      <Text fill="#ffa100" layoutX="120.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue au jeu LE 6 QUI PREND">
-         <font>
-            <Font name="Unispace-Bold" size="45.0" />
-         </font>
-      </Text>
-      <Text fill="#2200ff" layoutX="150.0" layoutY="674.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appuyer pour voir les règles du jeu ">
-         <font>
-            <Font name="Unispace-Bold" size="28.0" />
-         </font>
-      </Text>
-      <Button fx:id="startButton" layoutX="619.0" layoutY="633.0" mnemonicParsing="false" onAction="#startGame" text="Règles du jeu " textFill="#2e16ff">
-         <font>
-            <Font name="Unispace-Bold" size="28.0" />
-         </font>
-      </Button>
-      <ImageView fitHeight="426.0" fitWidth="426.0" layoutX="333.0" layoutY="162.0" opacity="0.3">
+      <ImageView fitHeight="750.0" fitWidth="1090.0" layoutX="2.0" layoutY="-1.0" opacity="0.3">
          <image>
             <Image url="@../../../images/background-6QuiPrend.png" />
          </image>
       </ImageView>
+      <Text fill="#ffa100" layoutX="219.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue dans le 6 QUI PREND">
+         <font>
+            <Font name="System Bold" size="45.0" />
+         </font>
+      </Text>
+      <Text fill="#2200ff" layoutX="371.0" layoutY="673.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appuyer pour voir les :">
+         <font>
+            <Font name="Unispace-Bold" size="28.0" />
+         </font>
+      </Text>
+      <Button fx:id="startButton" layoutX="685.0" layoutY="634.0" mnemonicParsing="false" onAction="#startGame" text="Règles du jeu " textFill="#2e16ff">
+         <font>
+            <Font name="Unispace-Bold" size="28.0" />
+         </font>
+      </Button>
+      <Text layoutX="335.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="II.1202 - Projet : 6 qui prend!">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <Text layoutX="385.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Professeur : Guillaume Lachaud">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="456.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Membres de l'équipe : ">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="477.0" layoutY="469.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hyun Joon Yoo">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="477.0" layoutY="521.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Arthur Terisse ">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="464.0" layoutY="579.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Léonard Gendrel ">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
    </children>
 </Pane>
