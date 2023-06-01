@@ -6,7 +6,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -22,5 +24,11 @@ public class GameStart extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {launch();}
+    public static void main(String[] args) {
+        String musicFile = "C:\\Users\\leona\\IdeaProjects\\TP\\demo\\Jeu_6_Qui_Prend_Java\\Jeu_6_Qui_Prend_Java\\Jeu_6_Qui_Prend_Java\\src\\main\\resources\\Music\\Musique_fond.mp3"; // Mettez le chemin d'accès à votre fichier audio ici
+        Media sound = new Media(new File(musicFile).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+        launch();
+    }
 }
