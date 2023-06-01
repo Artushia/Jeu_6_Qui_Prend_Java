@@ -101,6 +101,8 @@ public class Le6QuiPrendApplication {
         Topvalues.add(CardSet3.getTopValue());
         Topvalues.add(CardSet4.getTopValue());
 
+        playerName.setText("Player turn: player " + player1.getPlayerNumber());
+        playerPoint.setText(String.valueOf(player1.getPlayerScore()));
     }
 
     //When finish turn button is clicked, it switches active player
