@@ -43,7 +43,7 @@ public class CardStack {
         return cards.size();
     }
 
-    public List<Card> addMayTakeIfBelowOr6th(Card c) {
+    public List<Card> addMayTakeIfBelowOr6th(Card c, Player currentPlayer) {
         Objects.requireNonNull(c);
         List<Card> res;
         if (c.value < topValue) {
@@ -55,6 +55,7 @@ public class CardStack {
                 res = new ArrayList<>(cards);
                 this.cards.clear();
                 resetWithTopCard(c);
+                currentPlayer.playerScore += sumPenalty;
             } else {
                 cards.add(c);
                 this.sumPenalty += c.penalty;
