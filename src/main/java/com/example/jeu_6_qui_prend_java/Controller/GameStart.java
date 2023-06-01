@@ -25,7 +25,7 @@ public class GameStart extends Application {
     }
 
     public static void main(String[] args) {
-        String musicFile = "C:\\Users\\leona\\IdeaProjects\\TP\\demo\\Jeu_6_Qui_Prend_Java\\Jeu_6_Qui_Prend_Java\\Jeu_6_Qui_Prend_Java\\src\\main\\resources\\Music\\Musique_fond.mp3"; // Mettez le chemin d'accès à votre fichier audio ici
+        String musicFile = "src/main/resources/Music/Musique_fond.mp3"; // Mettez le chemin d'accès à votre fichier audio ici
         Media sound = new Media(new File(musicFile).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
