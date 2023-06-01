@@ -32,7 +32,7 @@ public class GameAccueil {
         //mainPageController.finishTurnButtonClicked();
         // Register the button's action event handler
         mainPageController.FinishTurnButton.setOnAction(e -> mainPageController.finishTurnButtonClicked());
-        mainPageController.getValueFromImagePatternTest();
+//        mainPageController.getValueFromImagePatternTest();
     }
 
 
