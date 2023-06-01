@@ -70,4 +70,11 @@ public class CardStack {
         this.sumPenalty = card.penalty;
         this.topValue = card.value;
     }
+
+    private void getColumnPenalty(CardStack cardStack) {
+        int penaltySum = 0;
+        for (Card card : cardStack.cards) {
+            penaltySum += card.penalty;
+        }
+    }
 }

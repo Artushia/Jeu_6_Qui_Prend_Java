@@ -18,6 +18,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.Math.min;
+
 
 public class Le6QuiPrendApplication {
 
@@ -72,6 +74,7 @@ public class Le6QuiPrendApplication {
     public CardStack CardSet2 = new CardStack(startcards.get(1));
     public CardStack CardSet3 = new CardStack(startcards.get(2));
     public CardStack CardSet4 = new CardStack(startcards.get(3));
+    public CardStack[] cardSets = new CardStack[]{CardSet1, CardSet2, CardSet3, CardSet4};
     private Rectangle twinklingCard;
 
     Rectangle jeuUpdate;
@@ -142,6 +145,9 @@ public class Le6QuiPrendApplication {
                     int differenceP2 = player2.getChosenCard().value - Topvalues.get(i) ; // player2's difference
                     System.out.println("DifferenceP1 for index " + i + ": " + differenceP1);
                     System.out.println("DifferenceP2 for index " + i + ": " + differenceP2);
+                    int penalty = cardSets[i].getSumPenalty();
+                    System.out.println("Column " + i + " penalty is " + penalty );
+
                     // Update the minimum difference if the current difference is smaller
                     if (differenceP1 >0 && differenceP1 < minDifferenceP1) {
                         minDifferenceP1 = differenceP1;
