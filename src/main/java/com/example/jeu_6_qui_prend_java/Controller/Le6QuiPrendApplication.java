@@ -24,9 +24,9 @@ public class Le6QuiPrendApplication {
     Random random = new Random();
     List<Card> startcards = Cards.initialiseGameBoard(random);
     List<CardSet> playerCardList = Cards.distributeRandomCards(2, random, 10); // distribute 10 cards to each player
-    Player player1 = new Player(1, playerCardList.get(0),0,true, null);
-    Player player2 = new Player(2, playerCardList.get(1),0,false, null);
-
+    public  Player player1 = new Player(1, playerCardList.get(0),0,true, null);
+    public Player player2 = new Player(2, playerCardList.get(1),0,false, null);
+    List<Player> players = new ArrayList<>(Arrays.asList(player1, player2));
     public Rectangle jeu1;
     public Rectangle jeu2;
     public Rectangle jeu3;
@@ -118,6 +118,8 @@ public class Le6QuiPrendApplication {
         Rectangle[] thirdStackRectangles = { jeu14, jeu15, jeu16, jeu17, jeu18 };
         Rectangle[] fourthStackRectangles = { jeu20, jeu21, jeu22, jeu23, jeu24 };
 
+        Rectangle[] mainRectangles = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
+
         if (player1.isPlayerturn()) {
             player1.setPlayerturn(false);
             player2.setPlayerturn(true);
@@ -130,15 +132,13 @@ public class Le6QuiPrendApplication {
             playerPoint.setText(String.valueOf(player1.getPlayerScore()));
         }
         if (chosenCard != null) {
-            Rectangle[] mainRectangles = { main1, main2, main3, main4, main5, main6, main7, main8, main9, main10 };
-
             System.out.println("player" + currentPlayer.getPlayerNumber() + " chose card: " + chosenCard);
             CardSet cardSet = currentPlayer.getPlayerCardSet();
-            cardSet.take(chosenCard);
+            cardSet.take(chosenCard); // remove the chosen card from the player's card set
             System.out.println("player" + currentPlayer.getPlayerNumber() + " cardset: " + cardSet);
             if(player1.getChosenCard() != null && player2.getChosenCard() != null){
-                int indexP1 = 0;
-                int indexP2 = 0;
+                int indexP1 = 0; // Initialize the index of the minimum difference
+                int indexP2 = 0; // Initialize the index of the minimum difference
                 for (int i = 0; i < Topvalues.size(); i++) {
                     int differenceP1 = player1.getChosenCard().value - Topvalues.get(i) ; // player1's difference
                     int differenceP2 = player2.getChosenCard().value - Topvalues.get(i) ; // player2's difference
@@ -157,94 +157,98 @@ public class Le6QuiPrendApplication {
                 }
                 System.out.println("IndexP1: " + indexP1);
                 System.out.println("IndexP2: " + indexP2);
+
+                //Move the chosen card to the right stack
                 if(indexP1 == indexP2){
                     if(minDifferenceP1 < minDifferenceP2){
                         switch (indexP1){
                             case 0:
-                                CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                 if(CardSet1.getCardCount() > 1){
+                                    // jeuUpdate is for player1 and jeuUpdate2 is for player2
                                     jeuUpdate = firstStackRectangles[CardSet1.getCardCount() - 2];
+                                    // -2 because it start 0 for index and firstStackRectangles[0] is for the second card
                                     if(CardSet1.getCardCount() == 5){
-                                        CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                        CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                         jeuUpdate2 = firstRectangles[0];
                                         for (int i = 0; i < 4; i++) {
                                             firstStackRectangles[i].setFill(null);
                                         }
                                     }
-                                    CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                    CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate2 = firstStackRectangles[CardSet1.getCardCount() - 2];
                                 }else{
                                     jeuUpdate = firstRectangles[0];
                                     for (int i = 0; i < 4; i++) {
                                         firstStackRectangles[i].setFill(null);
                                     }
-                                    CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                    CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate2 = firstStackRectangles[CardSet1.getCardCount() - 2];
                                 }
                                 break;
                             case 1:
-                                CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                 if(CardSet2.getCardCount() > 1){
                                     jeuUpdate = secondStackRectangles[CardSet2.getCardCount() - 2];
                                     if(CardSet2.getCardCount() == 5){
-                                        CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                        CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                         jeuUpdate2 = firstRectangles[1];
                                         for (int i = 0; i < 4; i++) {
                                             secondStackRectangles[i].setFill(null);
                                         }
                                     }
-                                    CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                    CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate2 = secondStackRectangles[CardSet2.getCardCount() - 2];
                                 }else{
                                     jeuUpdate = firstRectangles[1];
                                     for (int i = 0; i < 4; i++) {
                                         secondStackRectangles[i].setFill(null);
                                     }
-                                    CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                    CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate2 = secondStackRectangles[CardSet2.getCardCount() - 2];
                                 }
                                 break;
                             case 2:
-                                CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                 if(CardSet3.getCardCount() > 1){
                                     jeuUpdate = thirdStackRectangles[CardSet3.getCardCount() - 2];
                                     if(CardSet3.getCardCount() == 5){
-                                        CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                        CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                         jeuUpdate2 = firstRectangles[2];
                                         for (int i = 0; i < 4; i++) {
                                             thirdStackRectangles[i].setFill(null);
                                         }
                                     }
-                                    CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                    CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate2 = thirdStackRectangles[CardSet3.getCardCount() - 2];
                                 }else{
                                     jeuUpdate = firstRectangles[2];
                                     for (int i = 0; i < 4; i++) {
                                         thirdStackRectangles[i].setFill(null);
                                     }
-                                    CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                    CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate2 = thirdStackRectangles[CardSet3.getCardCount() - 2];
                                 }
                                 break;
                             case 3:
-                                CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                 if(CardSet4.getCardCount() > 1){
                                     jeuUpdate = fourthStackRectangles[CardSet4.getCardCount() - 2];
                                     if(CardSet4.getCardCount() == 5){
-                                        CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                        CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                         jeuUpdate2 = firstRectangles[3];
                                         for (int i = 0; i < 4; i++) {
                                             fourthStackRectangles[i].setFill(null);
                                         }
                                     }
-                                    CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                    CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate2 = fourthStackRectangles[CardSet4.getCardCount() - 2];
                                 }else{
                                     jeuUpdate = firstRectangles[3];
                                     for (int i = 0; i < 4; i++) {
                                         fourthStackRectangles[i].setFill(null);
                                     }
-                                    CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                    CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate2 = fourthStackRectangles[CardSet4.getCardCount() - 2];
                                 }
                                 break;
@@ -258,90 +262,90 @@ public class Le6QuiPrendApplication {
                     }else{
                         switch (indexP1){
                             case 0:
-                                CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                 if(CardSet1.getCardCount() > 1){
                                     jeuUpdate2 = firstStackRectangles[CardSet1.getCardCount() - 2];
                                     if(CardSet1.getCardCount() == 5){
-                                        CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                        CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                         jeuUpdate = firstRectangles[0];
                                         for (int i = 0; i < 4; i++) {
                                             firstStackRectangles[i].setFill(null);
                                         }
                                     }
-                                    CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                    CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate = firstStackRectangles[CardSet1.getCardCount() - 2];
                                 }else{
                                     jeuUpdate2 = firstRectangles[0];
                                     for (int i = 0; i < 4; i++) {
                                         firstStackRectangles[i].setFill(null);
                                     }
-                                    CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                    CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate = firstStackRectangles[CardSet1.getCardCount() - 2];
                                 }
                                 break;
                             case 1:
-                                CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                 if(CardSet2.getCardCount() > 1){
                                     jeuUpdate2 = secondStackRectangles[CardSet2.getCardCount() - 2];
                                     if(CardSet2.getCardCount() == 5){
-                                        CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                        CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                         jeuUpdate = firstRectangles[1];
                                         for (int i = 0; i < 4; i++) {
                                             secondStackRectangles[i].setFill(null);
                                         }
                                     }
-                                    CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                    CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate = secondStackRectangles[CardSet2.getCardCount() - 2];
                                 }else{
                                     jeuUpdate2 = firstRectangles[1];
                                     for (int i = 0; i < 4; i++) {
                                         secondStackRectangles[i].setFill(null);
                                     }
-                                    CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                    CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate = secondStackRectangles[CardSet2.getCardCount() - 2];
                                 }
                                 break;
                             case 2:
-                                CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                 if(CardSet3.getCardCount() > 1){
                                     jeuUpdate2 = thirdStackRectangles[CardSet3.getCardCount() - 2];
                                     if(CardSet3.getCardCount() == 5){
-                                        CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                        CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                         jeuUpdate = firstRectangles[2];
                                         for (int i = 0; i < 4; i++) {
                                             thirdStackRectangles[i].setFill(null);
                                         }
                                     }
-                                    CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                    CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate = thirdStackRectangles[CardSet3.getCardCount() - 2];
                                 }else{
                                     jeuUpdate2 = firstRectangles[2];
                                     for (int i = 0; i < 4; i++) {
                                         thirdStackRectangles[i].setFill(null);
                                     }
-                                    CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                    CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate = thirdStackRectangles[CardSet3.getCardCount() - 2];
                                 }
                                 break;
                             case 3:
-                                CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                                CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                                 if(CardSet4.getCardCount() > 1){
                                     jeuUpdate2 = fourthStackRectangles[CardSet4.getCardCount() - 2];
                                     if(CardSet4.getCardCount() == 5){
-                                        CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                        CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                         jeuUpdate = firstRectangles[3];
                                         for (int i = 0; i < 4; i++) {
                                             fourthStackRectangles[i].setFill(null);
                                         }
                                     }
-                                    CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                    CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate = fourthStackRectangles[CardSet4.getCardCount() - 2];
                                 }else{
                                     jeuUpdate2 = firstRectangles[3];
                                     for (int i = 0; i < 4; i++) {
                                         fourthStackRectangles[i].setFill(null);
                                     }
-                                    CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                                    CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                                     jeuUpdate = fourthStackRectangles[CardSet4.getCardCount() - 2];
                                 }
                                 break;
@@ -356,7 +360,7 @@ public class Le6QuiPrendApplication {
                 }else {
                     switch (indexP1) {
                         case 0:
-                            CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                            CardSet1.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                             if(CardSet1.getCardCount() > 1){
                                 jeuUpdate = firstStackRectangles[CardSet1.getCardCount() - 2];
                             }else{
@@ -367,7 +371,7 @@ public class Le6QuiPrendApplication {
                             }
                             break;
                         case 1:
-                            CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                            CardSet2.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                             if(CardSet2.getCardCount() > 1){
                                 jeuUpdate = secondStackRectangles[CardSet2.getCardCount() - 2];
                             }else{
@@ -378,7 +382,7 @@ public class Le6QuiPrendApplication {
                             }
                             break;
                         case 2:
-                            CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                            CardSet3.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                             if(CardSet3.getCardCount() > 1){
                                 jeuUpdate = thirdStackRectangles[CardSet3.getCardCount() - 2];
                             }else{
@@ -389,7 +393,7 @@ public class Le6QuiPrendApplication {
                             }
                             break;
                         case 3:
-                            CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer);
+                            CardSet4.addMayTakeIfBelowOr6th(player1.getChosenCard(), currentPlayer, player1, player2);
                             if(CardSet4.getCardCount() > 1){
                                 jeuUpdate = fourthStackRectangles[CardSet4.getCardCount() - 2];
                             }else{
@@ -402,7 +406,7 @@ public class Le6QuiPrendApplication {
                     }
                     switch (indexP2) {
                         case 0:
-                            CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                            CardSet1.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                             if(CardSet1.getCardCount() > 1){
                                 jeuUpdate2 = firstStackRectangles[CardSet1.getCardCount() - 2];
                             }else{
@@ -413,7 +417,7 @@ public class Le6QuiPrendApplication {
                             }
                             break;
                         case 1:
-                            CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                            CardSet2.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                             if(CardSet2.getCardCount() > 1){
                                 jeuUpdate2 = secondStackRectangles[CardSet2.getCardCount() - 2];
                             }else{
@@ -424,7 +428,7 @@ public class Le6QuiPrendApplication {
                             }
                             break;
                         case 2:
-                            CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                            CardSet3.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                             if(CardSet3.getCardCount() > 1){
                                 jeuUpdate2 = thirdStackRectangles[CardSet3.getCardCount() - 2];
                             }else{
@@ -435,7 +439,7 @@ public class Le6QuiPrendApplication {
                             }
                             break;
                         case 3:
-                            CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer);
+                            CardSet4.addMayTakeIfBelowOr6th(player2.getChosenCard(), currentPlayer, player1, player2);
                             if(CardSet4.getCardCount() > 1){
                                 jeuUpdate2 = fourthStackRectangles[CardSet4.getCardCount() - 2];
                             }else{

@@ -2,6 +2,7 @@ package com.example.jeu_6_qui_prend_java.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.Getter;
 import java.util.Objects;
 
@@ -43,7 +44,13 @@ public class CardStack {
         return cards.size();
     }
 
-    public List<Card> addMayTakeIfBelowOr6th(Card c, Player currentPlayer) {
+    public List<Card> addMayTakeIfBelowOr6th(Card c, Player currentPlayer, Player player1, Player player2) {
+        Player playerGetPoint;
+        if(player1.getChosenCard().equals(c)){
+            playerGetPoint = player1;
+        }else{
+            playerGetPoint = player2;
+        }
         Objects.requireNonNull(c);
         List<Card> res;
         if (c.value < topValue) {
@@ -52,10 +59,11 @@ public class CardStack {
             resetWithTopCard(c);
         } else {
             if (cards.size() == 5) {
+                playerGetPoint.playerScore += this.sumPenalty;
                 res = new ArrayList<>(cards);
                 this.cards.clear();
                 resetWithTopCard(c);
-                currentPlayer.playerScore += sumPenalty;
+                playerGetPoint.setPlayerScore(playerGetPoint.playerScore);
             } else {
                 cards.add(c);
                 this.sumPenalty += c.penalty;

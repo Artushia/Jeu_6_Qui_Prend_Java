@@ -26,4 +26,5 @@ public class Player {
         this.Playerturn = Playerturn;
         this.chosenCard = chosenCard;
     }
+
 }
