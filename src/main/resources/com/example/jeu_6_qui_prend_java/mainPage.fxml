@@ -42,9 +42,9 @@
       <Rectangle fx:id="main5" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="120.0" layoutX="380.0" layoutY="229.0" stroke="BLACK" strokeType="INSIDE" width="78.0" />
       <Rectangle fx:id="main6" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="120.0" layoutX="44.0" layoutY="352.0" stroke="BLACK" strokeType="INSIDE" width="78.0" />
       <Rectangle fx:id="main10" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="120.0" layoutX="380.0" layoutY="352.0" stroke="BLACK" strokeType="INSIDE" width="78.0" />
-      <Text fill="#2d8d3a" layoutX="73.0" layoutY="684.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Compteur de tête :">
+      <Text fill="#2d8d3a" layoutX="69.0" layoutY="649.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Compteur de tête :">
          <font>
-            <Font name="Unispace-Bold" size="14.0" />
+            <Font size="18.0" />
          </font>
       </Text>
       <Rectangle fx:id="jeu10" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="120.0" layoutX="801.0" layoutY="239.0" stroke="BLACK" strokeType="INSIDE" width="78.0" />
@@ -64,8 +64,14 @@
       <Rectangle fx:id="jeu24" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="120.0" layoutX="969.0" layoutY="498.0" stroke="BLACK" strokeType="INSIDE" width="78.0" />
       <Rectangle fx:id="jeu20" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="120.0" layoutX="633.0" layoutY="498.0" stroke="BLACK" strokeType="INSIDE" width="78.0" />
       <Rectangle fx:id="jeu7" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="120.0" layoutX="549.0" layoutY="239.0" stroke="BLACK" strokeType="INSIDE" width="78.0" />
-      <Text fx:id="playerName" layoutX="163.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="playerPoint" layoutX="234.0" layoutY="683.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text fx:id="playerName" layoutX="103.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="346.13671875">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Text>
+      <Text fx:id="playerPoint" layoutX="232.0" layoutY="650.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Text>
       <Button fx:id="FinishTurnButton" layoutX="482.0" layoutY="665.0" mnemonicParsing="false" text="Finish My Turn" />
    </children>
 </Pane>

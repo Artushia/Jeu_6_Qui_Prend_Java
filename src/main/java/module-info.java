@@ -2,7 +2,8 @@ module com.example.jeu_6_qui_prend_java {
     requires javafx.controls;
     requires javafx.fxml;
     requires lombok;
-    requires org.slf4j;  // Declare the SLF4J dependency
+    requires org.slf4j;
+    requires javafx.media;  // Declare the SLF4J dependency
 
 
     exports com.example.jeu_6_qui_prend_java.Model;
