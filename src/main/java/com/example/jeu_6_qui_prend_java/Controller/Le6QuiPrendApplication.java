@@ -22,8 +22,8 @@ public class Le6QuiPrendApplication {
     Random random = new Random();
     List<Card> startcards = Cards.initialiseGameBoard(random);
     List<CardSet> playerCardList = Cards.distributeRandomCards(2, random, 10); // distribute 10 cards to each player
-    public  Player player1 = new Player(1, playerCardList.get(0),0,true, null);
-    public Player player2 = new Player(2, playerCardList.get(1),0,false, null);
+    Player player1 = new Player(1, playerCardList.get(0),0,true, null);
+    Player player2 = new Player(2, playerCardList.get(1),0,false, null);
     private static final Duration CARD_MOVE_DURATION = Duration.seconds(1);
     public Rectangle jeu1;
     public Rectangle jeu2;
@@ -77,6 +77,7 @@ public class Le6QuiPrendApplication {
 
     Card chosenCard;
     List<Integer> Topvalues = new ArrayList<>();
+
 
     //Sets the cards at the beginning of the columns when game starts
     public void displayInitCards() {
@@ -541,21 +542,6 @@ public class Le6QuiPrendApplication {
             e.printStackTrace();
         }
 
-    }
-    private Rectangle getCardRectangle(CardSet cardSet, Card chosenCard) {
-        // Implement the mapping between card data and Rectangle objects
-        Rectangle cardRectangle = null;
-
-        List<Rectangle> cardRectangles = Arrays.asList(
-                main1, main2, main3, main4, main5, main6, main7, main8, main9, main10
-        );
-
-        int index = cardSet.getCardIndex(chosenCard);
-        if (index >= 0 && index < cardRectangles.size()) {
-            cardRectangle = cardRectangles.get(index);
-        }
-
-        return cardRectangle;
     }
 
     private void handleCardClick(int userData) {

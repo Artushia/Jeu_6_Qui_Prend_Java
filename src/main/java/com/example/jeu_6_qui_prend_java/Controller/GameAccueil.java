@@ -30,10 +30,8 @@ public class GameAccueil {
         Le6QuiPrendApplication mainPageController = loader.getController();
         mainPageController.displayInitCards();
         mainPageController.displayInitHand();
-        //mainPageController.finishTurnButtonClicked();
         // Register the button's action event handler
         mainPageController.FinishTurnButton.setOnAction(e -> mainPageController.finishTurnButtonClicked());
-//        mainPageController.getValueFromImagePatternTest();
     }
 
 
